@@ -279,6 +279,7 @@ set -g history-limit 10000
 
 # start with mouse mode enabled
 set -g mouse on
+setw -g mouse on
 
 # change prefix
 set -g prefix M-Space

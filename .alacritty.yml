@@ -90,10 +90,6 @@ url:
 
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
-  - { mouse: '4', action: ScrollLineUp }
-  - { mouse: '5', action: ScrollLineDown }
-  # - { mouse: ScrollLineUp, action: ScrollLineUp }
-  # - { mouse: ScrollLineUp, action: ScrollLineDown }
 # Mouse bindings
 #
 # Mouse bindings are specified as a list of objects, much like the key
