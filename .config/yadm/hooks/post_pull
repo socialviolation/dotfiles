@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "yadm post_pull hook"
-if [[ $"OSTYPE" == "linux-gnu" * ]]; then
+if [[ $OSTYPE == "linux-gnu" ]]; then
     echo "Performing actions for linux-gnu"
     echo "Copying ncspot config to snap config location"
     cp ~/.config/ncspot/config.toml ~/snap/ncspot/current/.config/ncspot/config.toml
