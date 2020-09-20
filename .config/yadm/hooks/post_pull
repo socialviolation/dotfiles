@@ -1,5 +1,9 @@
 #!/bin/bash
 
-rm -rf ~/snap/ncspot/current/.config/ncspot/config.toml
-cp ~/.config/ncspot/config.toml ~/snap/ncspot/current/.config/ncspot/config.toml
-chmod 600 ~/snap/ncspot/current/.config/ncspot/config.toml
+echo "yadm post_pull hook"
+if [[ $"OSTYPE" == "linux-gnu" * ]]; then
+    echo "Performing actions for linux-gnu"
+    echo "Copying ncspot config to snap config location"
+    cp ~/.config/ncspot/config.toml ~/snap/ncspot/current/.config/ncspot/config.toml
+    chmod 600 ~/snap/ncspot/current/.config/ncspot/config.toml
+fi
