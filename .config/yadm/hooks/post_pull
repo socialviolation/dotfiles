@@ -1,3 +1,5 @@
 #!/bin/bash
 
-ln -s ~/.config/ncspot/config.toml ~/snap/ncspot/current/.config/ncspot/config.toml
+rm -rf ~/snap/ncspot/current/.config/ncspot/config.toml
+cp ~/.config/ncspot/config.toml ~/snap/ncspot/current/.config/ncspot/config.toml
+chmod 600 ~/snap/ncspot/current/.config/ncspot/config.toml
