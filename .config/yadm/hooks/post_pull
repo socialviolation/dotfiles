@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ln -s ~/.config/ncspot/config.toml ~/snap/ncspot/current/.config/ncspot/config.toml
