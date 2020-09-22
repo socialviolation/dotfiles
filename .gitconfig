@@ -58,6 +58,7 @@
   pl = pull                         # pull
 
   # push
+  p = [[ $(git config "branch.$(git rev-parse --abbrev-ref HEAD).merge") = '' ]] && git push -u || git push
   sm  = !git ss --quiet && git co master --quiet
   ppm  = !git ss --quiet && git co master --quiet && git pull --quiet && git co - --quiet && git ss pop --quiet # push
   pp  = !git pull && git push # push and rebase
@@ -123,7 +124,7 @@
 [push]
   # 'git push' will push the current branch to its tracking branch
   # the usual default is to push all branches
-  default = current
+  default = upstream
 [core]
   autocrlf = false
 	editor = nvim
