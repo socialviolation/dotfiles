@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "⚡ yadm post_pull hook"
+echo "🚀 yadm post_pull hook"
 if [[ $OSTYPE == "linux-gnu" ]]; then
     echo -e "\t🐧 Post actions for linux-gnu..."
     echo -e "\t🎧 Copying ncspot config to snap config location"
@@ -9,6 +9,6 @@ if [[ $OSTYPE == "linux-gnu" ]]; then
 fi
 
 echo "🚀 reload zshrc"
-source ${HOME}/.zshrc
+source ~/.zshrc
 
 echo "✅ done"

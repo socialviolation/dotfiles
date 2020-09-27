@@ -4,8 +4,6 @@ ZSH_THEME="arrow"
 
 DISABLE_AUTO_UPDATE="true"
 
-# plugins=(gitfast poetry yarn zsh zsh-syntax-highlighting) # deprecated with antibody
-
 source $ZSH/oh-my-zsh.sh
 
 # https://github.com/getantibody/antibody/issues/261#issuecomment-533464072
@@ -31,6 +29,5 @@ alias k="kubectl"
 export FZF_COMPLETION_TRIGGER="z"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-messages -g "!{.git,*.swp,**/.terraform}/*" 2> /dev/null'
 export FZF_DEFAULT_OPTS="--bind J:down,K:up --reverse --ansi --multi"
-
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
