@@ -8,7 +8,7 @@ if [[ $OSTYPE == "linux-gnu" ]]; then
     chmod 600 ~/snap/ncspot/current/.config/ncspot/config.toml
 fi
 
-echo "🚀 reload zshrc"
-source ~/.zshrc
+# echo "🚀 reload zshrc"
+# source ~/.zshrc
 
 echo "✅ done"
