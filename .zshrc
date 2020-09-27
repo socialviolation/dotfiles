@@ -23,6 +23,10 @@ export NVM_DIR="$HOME/.nvm"
 alias ls="ls --color=auto --group-directories-first"
 alias grep='grep --exclude="*.pyc" --exclude="*.swp" --exclude="*.tfstate.backup" --color=auto --exclude-dir=.terraform --exclude-dir=.git'
 alias :q="exit"
+alias g="git";alias got="git";
+alias dc="docker-compose"
+alias tf="terraform"
+alias k="kubectl"
 
 export FZF_COMPLETION_TRIGGER="z"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-messages -g "!{.git,*.swp,**/.terraform}/*" 2> /dev/null'
