@@ -7,4 +7,8 @@ if [[ $OSTYPE == "linux-gnu" ]]; then
     cp ~/.config/ncspot/config.toml ~/snap/ncspot/current/.config/ncspot/config.toml
     chmod 600 ~/snap/ncspot/current/.config/ncspot/config.toml
 fi
-echo "done"
+
+echo "🚀 reload zshrc"
+source ${HOME}/.zshrc
+
+echo "✅ done"
