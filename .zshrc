@@ -13,7 +13,6 @@ ZSH="$(antibody home)/https-COLON--SLASH--SLASH-github.com-SLASH-robbyrussell-SL
 # https://github.com/getantibody/antibody/issues/261#issuecomment-616205908
 antibody bundle robbyrussell/oh-my-zsh path:lib path:plugins/gitfast path:plugins/yarn path:plugins/zsh path:plugins/zsh-syntax-highlighting
 
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -30,4 +29,4 @@ export FZF_COMPLETION_TRIGGER="z"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-messages -g "!{.git,*.swp,**/.terraform}/*" 2> /dev/null'
 export FZF_DEFAULT_OPTS="--bind J:down,K:up --reverse --ansi --multi"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zshcomplete -F __start_kubectl k
