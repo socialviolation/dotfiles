@@ -26,7 +26,7 @@ alias tf="terraform"
 alias k="kubectl"
 source <(kubectl completion zsh)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zshcomplete -F __start_kubectl k
+complete -F __start_kubectl k
 
 export FZF_COMPLETION_TRIGGER="z"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-messages -g "!{.git,*.swp,**/.terraform}/*" 2> /dev/null'
