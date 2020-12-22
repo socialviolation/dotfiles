@@ -1,7 +1,7 @@
 export ZSH=$HOME/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="arrow"
-plugins=(git)
+plugins=(git, kubectl)
 
 source $ZSH/oh-my-zsh.sh
 

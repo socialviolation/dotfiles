@@ -1,6 +1,5 @@
 # https://raw.githubusercontent.com/alacritty/alacritty/master/alacritty.yml
 live_config_reload: true
-dynamic_title: true
 window:
   dimensions:
     columns: 0
@@ -9,6 +8,7 @@ window:
     x: 0
     y: 0
   dynamic_padding: false
+  dynamic_title: true
   decorations: full
   startup_mode: Fullscreen
 scrolling:
