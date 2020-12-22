@@ -24,4 +24,4 @@ complete -F __start_kubectl k
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-messages -g "!{.git,*.swp,**/.terraform}/*" 2> /dev/null'
 # export FZF_DEFAULT_OPTS="--bind J:down,K:up --reverse --ansi --multi"
 
-export PATH=/usr/local/Cellar/:$PATH
+export PATH=/usr/local/Cellar/:/usr/local/bin/:$PATH
