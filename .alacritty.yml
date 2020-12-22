@@ -53,7 +53,7 @@ colors:
     white:   '0xfefefe'
   indexed_colors: []
 
-visual_bell:
+bell:
   animation: EaseOutExpo
   duration: 0
   color: '0xffffff'
