@@ -21,6 +21,8 @@ source <(kubectl completion zsh)
 complete -F __start_kubectl k
 
 export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+export GO111MODULE=auto
 export PATH=$PATH:$GOPATH/bin
 
 # export FZF_COMPLETION_TRIGGER="z"
