@@ -20,6 +20,8 @@ source <(kubectl completion zsh)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 complete -F __start_kubectl k
 
+eval "$(direnv hook zsh)"
+
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export GO111MODULE=auto
