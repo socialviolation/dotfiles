@@ -148,3 +148,5 @@
   email = ng.freemantle@gmail.com
 [credential]
 	helper = store
+[hub]
+  protocol = ssh
