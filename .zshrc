@@ -8,6 +8,7 @@ source $ZSH/oh-my-zsh.sh
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
+alias wg="wargames"
 alias ls="ls -l"
 alias grep='grep --exclude="*.pyc" --exclude="*.swp" --exclude="*.tfstate.backup" --color=auto --exclude-dir=.terraform --exclude-dir=.git'
 alias :q="exit"
