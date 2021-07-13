@@ -13,7 +13,7 @@ alias ls="ls -l"
 alias grep='grep --exclude="*.pyc" --exclude="*.swp" --exclude="*.tfstate.backup" --color=auto --exclude-dir=.terraform --exclude-dir=.git'
 alias :q="exit"
 alias g="git";
-alias dc="docker-compose"
+alias dc="docker compose"
 alias tf="terraform"
 alias tg="terragrunt"
 alias k="kubectl"

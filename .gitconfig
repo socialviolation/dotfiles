@@ -58,7 +58,7 @@
   pl = pull                         # pull
 
   # push
-  p = [[ $(git config "branch.$(git rev-parse --abbrev-ref HEAD).merge") = '' ]] && git push -u || git push
+  pu = push -u origin HEAD
   sm  = !git ss --quiet && git co master --quiet
   ppm  = !git ss --quiet && git co master --quiet && git pull --quiet && git co - --quiet && git ss pop --quiet # push
   pp  = !git pull && git push # push and rebase
@@ -150,3 +150,9 @@
 	helper = store
 [hub]
   protocol = ssh
+[init]
+  defaultBranch = main
+[pull]
+  rebase = false
+[url "git@github.com:"]
+  insteadOf = https://github.com/
