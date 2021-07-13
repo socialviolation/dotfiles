@@ -65,8 +65,6 @@ Plug 'SirVer/ultisnips'                                           " Ulti snips
 " tpope
 Plug 'tpope/vim-surround'                                         " Operate on surrounding
 Plug 'tpope/vim-repeat'                                           " Repeat plugins
-Plug 'tpope/vim-surround'                                         " Operate on surrounding
-Plug 'tpope/vim-repeat'                                           " Repeat plugins
 Plug 'tpope/vim-commentary'                                       " Comment out blocks
 Plug 'tpope/vim-fugitive'                                         " Git integration
 Plug 'tpope/vim-abolish'                                          " Flexible search
@@ -656,3 +654,6 @@ au BufRead,BufNewFile *.template   setlocal filetype=yaml
 au BufRead,BufNewFile Dockerfile.* setlocal filetype=dockerfile
 au BufRead,BufNewFile Jenkinsfile  setlocal filetype=groovy
 au BufRead,BufNewFile *makefile*   setlocal filetype=make
+
+" treeeee
+au vimenter * if !argc() | NERDTree | endif
