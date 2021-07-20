@@ -17,6 +17,7 @@ alias dc="docker compose"
 alias tf="terraform"
 alias tg="terragrunt"
 alias k="kubectl"
+alias nvim_plugs="nvim +PlugInstall +UpdateRemotePlugins +qa"
 source <(kubectl completion zsh)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 complete -F __start_kubectl k
@@ -26,7 +27,7 @@ eval "$(direnv hook zsh)"
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export GO111MODULE=auto
-export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin:$HOME/dev/flutter/bin
 
 # export FZF_COMPLETION_TRIGGER="z"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-messages -g "!{.git,*.swp,**/.terraform}/*" 2> /dev/null'
