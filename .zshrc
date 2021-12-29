@@ -33,10 +33,13 @@ export PATH=$PATH:$GOPATH/bin:$HOME/dev/flutter/bin
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-messages -g "!{.git,*.swp,**/.terraform}/*" 2> /dev/null'
 export FZF_DEFAULT_OPTS="--bind J:down,K:up --reverse --ansi --multi"
 . $HOME/dev/z/z.sh
-export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$PATH
+export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$HOME/Library/Android/sdk/tools/bin/:$HOME/Library/Android/sdk/emulator/:$PATH
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/nickfreemantle/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nickfreemantle/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc'; fi
+
+export JAVA_HOME=`/usr/libexec/java_home`
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
