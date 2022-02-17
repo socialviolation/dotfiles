@@ -45,4 +45,7 @@ if [ -f '/Users/nickfreemantle/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc'; fi
 
-alias myip=dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}'
+alias wip='dig @resolver4.opendns.com myip.opendns.com +short'
+alias wipc='dig @resolver4.opendns.com myip.opendns.com +short | pbcopy;echo copied to clipboard'
+alias wip4='dig @resolver4.opendns.com myip.opendns.com +short -4'
+alias wip6='dig @resolver1.ipv6-sandbox.opendns.com AAAA myip.opendns.com +short -6'
