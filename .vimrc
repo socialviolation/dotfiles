@@ -61,6 +61,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'  }               " Syntax for g
 Plug 'hashivim/vim-terraform'                                     " Syntax for terraform
 Plug 'ekalinin/Dockerfile.vim'                                    " Syntax for docker
 Plug 'SirVer/ultisnips'                                           " Ulti snips
+Plug 'rip-rip/clang_complete'                                     " Syntax for C
 
 " tpope
 Plug 'tpope/vim-surround'                                         " Operate on surrounding
