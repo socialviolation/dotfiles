@@ -1,6 +1,7 @@
 # https://raw.githubusercontent.com/alacritty/alacritty/master/alacritty.yml
 live_config_reload: true
 window:
+  opacity: 1.0
   dimensions:
     columns: 0
     lines: 0
@@ -58,7 +59,6 @@ bell:
   duration: 0
   color: '0xffffff'
 
-background_opacity: 1.0
 mouse:
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
