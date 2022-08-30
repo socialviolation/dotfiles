@@ -1,14 +1,13 @@
 export ZSH=$HOME/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="arrow"
-plugins=()
+# plugins=()
 
 source $ZSH/oh-my-zsh.sh
 
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
-alias wg="wargames"
 alias ls="ls -l"
 alias grep='grep --exclude="*.pyc" --exclude="*.swp" --exclude="*.tfstate.backup" --color=auto --exclude-dir=.terraform --exclude-dir=.git'
 alias :q="exit"
@@ -46,6 +45,4 @@ if [ -f '/Users/nickfreemantle/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 if [ -f '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc'; fi
 
 alias wip='dig @resolver4.opendns.com myip.opendns.com +short'
-alias wipc='dig @resolver4.opendns.com myip.opendns.com +short | pbcopy;echo copied to clipboard'
-alias wip4='dig @resolver4.opendns.com myip.opendns.com +short -4'
-alias wip6='dig @resolver1.ipv6-sandbox.opendns.com AAAA myip.opendns.com +short -6'
+alias wipc='wip | pbcopy;echo copied to clipboard'
