@@ -12,7 +12,7 @@ if [ "$system_type" = "Darwin" ]; then
 
   if [ -f "$HOME/.Brewfile" ]; then
     echo "Updating homebrew bundle"
-    brew bundle --global
+    brew bundle --global --file $HOME/.Brewfile
   fi
 
 fi
