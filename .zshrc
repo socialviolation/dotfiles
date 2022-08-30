@@ -46,3 +46,5 @@ if [ -f '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc' ]; then . '/
 
 alias wip='dig @resolver4.opendns.com myip.opendns.com +short'
 alias wipc='wip | pbcopy;echo copied to clipboard'
+
+unalias grv
