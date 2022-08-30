@@ -4,6 +4,7 @@ system_type=$(uname -s)
 
 echo "$system_type"
 echo "home: $HOME"
+ls -als $HOME
 if [ "$system_type" = "Darwin" ]; then
 
   # install homebrew if it's missing
