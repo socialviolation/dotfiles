@@ -28,6 +28,9 @@ if [ "$system_type" = "Darwin" ]; then
     # clean-up a bit
     cd ..
     rm -rf fonts
+
+    echo "setup fzf"
+    $(brew --prefix)/opt/fzf/install
   fi
 
 fi
