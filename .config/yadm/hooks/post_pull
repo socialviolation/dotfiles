@@ -12,7 +12,6 @@ fi
 # source ~/.zshrc
 
 NOTEPAD_DIR="$HOME/dev/notepad"
-[ -d "$NOTEPAD_DIR"] && cd $NOTEPAD_DIR && git pull
-[ ! -d "$NOTEPAD_DIR" ] && git clone git@github.com:socialviolation/notepad.git ${NOTEPAD_DIR}
+[ -d "$NOTEPAD_DIR" ] && cd $NOTEPAD_DIR && git pull && cd ${HOME}
 
 echo "✅ done"
