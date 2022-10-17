@@ -156,3 +156,6 @@
   rebase = false
 [url "git@github.com:"]
   insteadOf = https://github.com/
+
+[includeIf "gitdir:~/dev/greater/"]
+  path = ~/dev/greater/.gitconfig-greater
