@@ -27,7 +27,7 @@ eval "$(direnv hook zsh)"
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export GO111MODULE=auto
-export PATH=$PATH:$GOPATH/bin:$HOME/dev/flutter/bin
+export PATH=$PATH:$GOPATH/bin:$HOME/dev/flutter/bin:$HOME/bin
 export IDF_PATH=$HOME/esp/esp-idf
 export JAVA_HOME=`/usr/libexec/java_home`
 
@@ -38,13 +38,15 @@ export FZF_DEFAULT_OPTS="--bind J:down,K:up --reverse --ansi --multi"
 
 export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$HOME/Library/Android/sdk/tools/bin/:$HOME/Library/Android/sdk/emulator/:/usr/local/bin/python3:$HOME/esp/esp-idf/tools:$PATH
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/nickfreemantle/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nickfreemantle/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc'; fi
-
 alias wip='dig @resolver4.opendns.com myip.opendns.com +short'
 alias wipc='wip | pbcopy;echo copied to clipboard'
 
 unalias grv
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/nick/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nick/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/nick/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nick/google-cloud-sdk/completion.zsh.inc'; fi
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH=$PATH:/Users/nick/.linkerd2/bin
