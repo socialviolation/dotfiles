@@ -3,7 +3,7 @@ export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="arrow"
 # plugins=()
 
-export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$HOME/Library/Android/sdk/tools/bin/:$HOME/Library/Android/sdk/emulator/:/usr/local/bin/python3:$HOME/esp/esp-idf/tools:$PATH
+export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$PATH
 export EDITOR=nvim
 export VISUAL=nvim
 source $ZSH/oh-my-zsh.sh
@@ -16,7 +16,7 @@ alias dc="docker compose"
 alias tf="terraform"
 alias tg="terragrunt"
 alias k="kubectl"
-alias setup_esp='. $HOME/esp/esp-idf/export.sh'
+
 alias nvim_plugs="nvim +PlugInstall +UpdateRemotePlugins +qa"
 source <(kubectl completion zsh)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -27,9 +27,7 @@ eval "$(direnv hook zsh)"
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export GO111MODULE=auto
-export PATH=$PATH:$GOPATH/bin:$HOME/dev/flutter/bin:$HOME/bin
-export IDF_PATH=$HOME/esp/esp-idf
-export JAVA_HOME=`/usr/libexec/java_home`
+export PATH=$PATH:$GOPATH/bin:$HOME/bin
 
 # export FZF_COMPLETION_TRIGGER="z"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-messages -g "!{.git,*.swp,**/.terraform}/*" 2> /dev/null'
