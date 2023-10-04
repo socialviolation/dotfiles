@@ -3,7 +3,7 @@ live_config_reload: true
 window:
   opacity: 1.0
   dimensions:
-    columns: 0
+    columns: 2
     lines: 0
   padding:
     x: 0
@@ -57,7 +57,7 @@ colors:
 bell:
   animation: EaseOutExpo
   duration: 0
-  color: '0xffffff'
+  color: '#ffffff'
 
 mouse:
   double_click: { threshold: 300 }
@@ -69,7 +69,8 @@ selection:
   save_to_clipboard: true
 
 cursor:
-  style: Beam
+  style:
+    shape: Beam
   unfocused_hollow: true
 
 shell:
