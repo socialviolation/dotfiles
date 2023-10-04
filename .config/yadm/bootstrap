@@ -37,5 +37,5 @@ if [ "$system_type" = "Darwin" ]; then
 
 fi
 
-NOTEPAD_DIR="$HOME/dev/notepad"
-[ ! -d "$NOTEPAD_DIR" ] && git clone git@github.com:socialviolation/notepad.git ${NOTEPAD_DIR}
+#NOTEPAD_DIR="$HOME/dev/notepad"
+#[ ! -d "$NOTEPAD_DIR" ] && git clone git@github.com:socialviolation/notepad.git ${NOTEPAD_DIR}
