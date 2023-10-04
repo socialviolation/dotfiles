@@ -1,7 +1,10 @@
 export ZSH=$HOME/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="arrow"
-# plugins=()
+plugins=(
+    git
+    z
+)
 
 export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$PATH
 export EDITOR=nvim
@@ -32,12 +35,10 @@ export PATH=$PATH:$GOPATH/bin:$HOME/bin
 # export FZF_COMPLETION_TRIGGER="z"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-messages -g "!{.git,*.swp,**/.terraform}/*" 2> /dev/null'
 export FZF_DEFAULT_OPTS="--bind J:down,K:up --reverse --ansi --multi"
-. $HOME/dev/z/z.sh
 
 alias wip='dig @resolver4.opendns.com myip.opendns.com +short'
 alias wipc='wip | pbcopy;echo copied to clipboard'
 
-unalias grv
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '${HOME}/google-cloud-sdk/path.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/path.zsh.inc'; fi
 
