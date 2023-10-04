@@ -12,6 +12,7 @@ window:
   dynamic_title: true
   decorations: full
   startup_mode: Fullscreen
+
 scrolling:
   history: 10000
   multiplier: 3
@@ -81,7 +82,6 @@ shell:
     - 'tmux -u attach || tmux -u new -s main'
 
 working_directory: None
-alt_send_esc: true
 
 url:
   launcher:
