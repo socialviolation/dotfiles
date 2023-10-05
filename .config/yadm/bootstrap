@@ -7,6 +7,8 @@ echo "home: $HOME"
 ls -als $HOME
 if [ "$system_type" = "Darwin" ]; then
 
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
   # install homebrew if it's missing
   if ! command -v brew >/dev/null 2>&1; then
     echo "Installing homebrew"
@@ -33,7 +35,13 @@ if [ "$system_type" = "Darwin" ]; then
     $(brew --prefix)/opt/fzf/install
   fi
 
+  asdf plugin add asdf-plugin-manager https://github.com/asdf-community/asdf-plugin-manager.git
+  asdf install asdf-plugin-manager 1.1.1
+  asdf global asdf-plugin-manager 1.1.1
+
+  asdf-plugin-manager add-all
+
 fi
 
-NOTEPAD_DIR="$HOME/dev/notepad"
-[ ! -d "$NOTEPAD_DIR" ] && git clone git@github.com:socialviolation/notepad.git ${NOTEPAD_DIR}
+#NOTEPAD_DIR="$HOME/dev/notepad"
+#[ ! -d "$NOTEPAD_DIR" ] && git clone git@github.com:socialviolation/notepad.git ${NOTEPAD_DIR}

@@ -2,7 +2,7 @@
 .DS_Store
 
 # jetbrains
-# .idea
+.idea
 
 .envrc
 .vscode/

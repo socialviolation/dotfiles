@@ -145,7 +145,7 @@
   path = .gitconfig.user
 [user]
   name = Nick Freemantle
-  email = ng.freemantle@gmail.com
+  email = nick.freemantle@anz.com
 [credential]
 	helper = store
 [hub]
@@ -156,6 +156,3 @@
   rebase = false
 [url "git@github.com:"]
   insteadOf = https://github.com/
-
-[includeIf "gitdir:~/dev/greater/"]
-  path = ~/dev/greater/.gitconfig-greater
