@@ -35,6 +35,19 @@ if [ "$system_type" = "Darwin" ]; then
     $(brew --prefix)/opt/fzf/install
   fi
 
+  asdf plugin add asdf-plugin-manager https://github.com/asdf-community/asdf-plugin-manager.git
+  asdf install asdf-plugin-manager 1.1.1
+  asdf global asdf-plugin-manager 1.1.1
+
+  # asdf plugin-add golang https://github.com/asdf-community/asdf-golang.git
+  # asdf install golang latest
+  # asdf plugin-add terraform https://github.com/Banno/asdf-hashicorp.git
+  # asdf install terraform latest
+  # asdf plugin-add python
+  # asdf install python latest
+  # asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+  # asdf install nodejs latest
+
 fi
 
 #NOTEPAD_DIR="$HOME/dev/notepad"
