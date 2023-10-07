@@ -1,5 +1,5 @@
 asdf-plugin-manager  git@github.com:asdf-community/asdf-plugin-manager.git  72b5830
 golang               git@github.com:asdf-community/asdf-golang.git          116667e
-nodejs               git@github.com:asdf-vm/asdf-nodejs.git                 9275f49
+nodejs               git@github.com:asdf-vm/asdf-nodejs.git                 644ada3
 python               git@github.com:danhper/asdf-python.git                 5e277e2
 terraform            git@github.com:Banno/asdf-hashicorp.git                0346f5d

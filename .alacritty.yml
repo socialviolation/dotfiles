@@ -2,9 +2,9 @@
 live_config_reload: true
 window:
   opacity: 1.0
-  dimensions:
-    columns: 2
-    lines: 0
+  # dimensions:
+    # columns: 2
+    # lines: 2
   padding:
     x: 0
     y: 0

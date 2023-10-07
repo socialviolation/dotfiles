@@ -6,7 +6,7 @@ plugins=(
     z
 )
 
-export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$PATH
+export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$HOME/.asdf/shims/:$PATH
 export EDITOR=nvim
 export VISUAL=nvim
 source $ZSH/oh-my-zsh.sh
@@ -45,5 +45,3 @@ if [ -f '${HOME}/google-cloud-sdk/path.zsh.inc' ]; then . '${HOME}/google-cloud-
 # The next line enables shell command completion for gcloud.
 if [ -f '${HOME}/google-cloud-sdk/completion.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/completion.zsh.inc'; fi
 
-
-source ${HOME}/.docker/init-zsh.sh || true # Added by Docker Desktop

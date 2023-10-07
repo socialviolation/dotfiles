@@ -145,7 +145,7 @@
   path = .gitconfig.user
 [user]
   name = Nick Freemantle
-  email = nick.freemantle@anz.com
+  email = ng.freemantle@gmail.com
 [credential]
 	helper = store
 [hub]
