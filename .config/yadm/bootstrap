@@ -37,9 +37,11 @@ if [ "$system_type" = "Darwin" ]; then
 
   asdf plugin add asdf-plugin-manager https://github.com/asdf-community/asdf-plugin-manager.git
   asdf install asdf-plugin-manager 1.1.1
-  asdf global asdf-plugin-manager 1.1.1
 
   asdf-plugin-manager add-all
+
+  pip3 install neovim
+  npm install -g neovim
 
 fi
 
