@@ -47,3 +47,7 @@ fi
 
 #NOTEPAD_DIR="$HOME/dev/notepad"
 #[ ! -d "$NOTEPAD_DIR" ] && git clone git@github.com:socialviolation/notepad.git ${NOTEPAD_DIR}
+
+
+# INSTRUCTIONS FOR LATER:
+# git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

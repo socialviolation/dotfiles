@@ -11,7 +11,4 @@ fi
 # echo "🚀 reload zshrc"
 # source ~/.zshrc
 
-NOTEPAD_DIR="$HOME/dev/notepad"
-[ -d "$NOTEPAD_DIR" ] && cd $NOTEPAD_DIR && git pull && cd ${HOME}
-
 echo "✅ done"

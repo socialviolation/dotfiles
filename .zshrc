@@ -1,15 +1,6 @@
-export ZSH=$HOME/.oh-my-zsh
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="arrow"
-plugins=(
-    git
-    z
-)
-
 export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$HOME/.asdf/shims/:$PATH
 export EDITOR=nvim
 export VISUAL=nvim
-source $ZSH/oh-my-zsh.sh
 
 alias ls="ls -l"
 alias grep='grep --exclude="*.pyc" --exclude="*.swp" --exclude="*.tfstate.backup" --color=auto --exclude-dir=.terraform --exclude-dir=.git'
@@ -21,9 +12,6 @@ alias tg="terragrunt"
 alias k="kubectl"
 
 alias nvim_plugs="nvim +PlugInstall +UpdateRemotePlugins +qa"
-source <(kubectl completion zsh)
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-complete -F __start_kubectl k
 
 eval "$(direnv hook zsh)"
 
