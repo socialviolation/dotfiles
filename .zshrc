@@ -9,6 +9,11 @@ export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$HOME/.asdf/shims
 export EDITOR=nvim
 export VISUAL=nvim
 
+source /opt/homebrew/etc/profile.d/z.sh
+source .powerlevel10k/powerlevel10k.zsh-theme
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 alias ls="ls -l"
 alias :q="exit"
 alias dc="docker compose"
@@ -31,9 +36,6 @@ if [ -f '${HOME}/google-cloud-sdk/path.zsh.inc' ]; then . '${HOME}/google-cloud-
 
 # The next line enables shell command completion for gcloud.
 if [ -f '${HOME}/google-cloud-sdk/completion.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/completion.zsh.inc'; fi
-source /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-. /usr/local/etc/profile.d/z.sh
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

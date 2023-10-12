@@ -2,12 +2,12 @@
 
 system_type=$(uname -s)
 
-echo "$system_type"
+echo "YADM BOOTSTRAP: $sytem_type"
 echo "home: $HOME"
 ls -als $HOME
-if [ "$system_type" = "Darwin" ]; then
 
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+if [ "$system_type" = "Darwin" ]; then
 
   # install homebrew if it's missing
   if ! command -v brew >/dev/null 2>&1; then
@@ -18,18 +18,6 @@ if [ "$system_type" = "Darwin" ]; then
   if [ -f "$HOME/.Brewfile" ]; then
     echo "Updating homebrew bundle"
     brew bundle --global --file $HOME/.Brewfile
-    echo "installing nvim plugins"
-    nvim +PlugInstall +UpdateRemotePlugins +qa
-
-    echo "installing powerline fonts"
-    # clone
-    git clone https://github.com/powerline/fonts.git --depth=1
-    # install
-    cd fonts
-    ./install.sh
-    # clean-up a bit
-    cd ..
-    rm -rf fonts
 
     echo "setup fzf"
     $(brew --prefix)/opt/fzf/install
@@ -44,6 +32,36 @@ if [ "$system_type" = "Darwin" ]; then
   npm install -g neovim
 
 fi
+
+if [ ! -d "~/.tmux/plugins/tpm" ]; then
+  printf 'Install TPM (tmux)? (y/n)? '
+  read answer
+  if [ "$answer" != "${answer#[Yy]}" ] ; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  fi
+fi
+
+
+printf 'Install Meslo Nerd Font patched? (y/n)? '
+read answer
+if [ "$answer" != "${answer#[Yy]}" ] ; then
+  # https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf -P  /Library/Fonts/
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf -P  /Library/Fonts/
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf -P  /Library/Fonts/
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf -P  /Library/Fonts/
+fi
+
+power_dir="${HOME}/.powerlevel10k"
+if [ ! -d "$power_dir" ]; then
+  printf 'Install powerlevel10k (y/n)? '
+  read answer
+
+  if [ "$answer" != "${answer#[Yy]}" ] ;then 
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $power_dir
+  fi
+fi
+
 
 #NOTEPAD_DIR="$HOME/dev/notepad"
 #[ ! -d "$NOTEPAD_DIR" ] && git clone git@github.com:socialviolation/notepad.git ${NOTEPAD_DIR}
