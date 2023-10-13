@@ -43,6 +43,7 @@ alias dc="docker compose"
 alias tf="terraform"
 alias tg="terragrunt"
 alias k="kubectl"
+alias tmux="tmux attach -t main || tmux new-session -t main"
 alias tms="${HOME}/.tmux-sessionizer"
 
 export GOPATH=$HOME/go

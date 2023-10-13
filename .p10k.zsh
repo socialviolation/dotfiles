@@ -32,6 +32,7 @@
   # The list of segments shown on the left. Fill it with the most important segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
     # =========================[ Line #1 ]=========================
+    my_no_mux           # CUSTOM: NO MUX
     os_icon                 # os identifier
     dir                     # current directory
     vcs                     # git status
@@ -1693,6 +1694,12 @@
     # instant_prompt_example. This will give us the same `example` prompt segment in the instant
     # and regular prompts.
     prompt_example
+  }
+
+  function prompt_my_no_mux() {
+    if [[ -z "${TMUX}" ]]; then
+      p10k segment -f '#2CFA1F' -t "NO MUX" -i 
+    fi
   }
 
   # User-defined prompt segments can be customized the same way as built-in segments.
