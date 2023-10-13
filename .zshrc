@@ -9,10 +9,33 @@ export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$HOME/.asdf/shims
 export EDITOR=nvim
 export VISUAL=nvim
 
-source /opt/homebrew/etc/profile.d/z.sh
-source .powerlevel10k/powerlevel10k.zsh-theme
+source ~/.powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
+# TMUX SESSION MANAGER
+# ~/.tmux/plugins
+export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
+# ~/.config/tmux/plugins
+export PATH=$HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
+export T_SESSION_USE_GIT_ROOT="true"
+
+
+# Auto complete
+source ~/.zsh_plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# Auto-complete - Make Tab go straight to the menu and cycle there
+bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
+bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+# Auto-complete - first common substring
+# all Tab widgets
+zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
+# all history widgets
+zstyle ':autocomplete:*history*:*' insert-unambiguous yes
+# ^S
+zstyle ':autocomplete:menu-search:*' insert-unambiguous yes
 
 alias ls="ls -l"
 alias :q="exit"
@@ -20,8 +43,7 @@ alias dc="docker compose"
 alias tf="terraform"
 alias tg="terragrunt"
 alias k="kubectl"
-
-# eval "$(direnv hook zsh)"
+alias tms="${HOME}/.tmux-sessionizer"
 
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
@@ -36,6 +58,3 @@ if [ -f '${HOME}/google-cloud-sdk/path.zsh.inc' ]; then . '${HOME}/google-cloud-
 
 # The next line enables shell command completion for gcloud.
 if [ -f '${HOME}/google-cloud-sdk/completion.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/completion.zsh.inc'; fi
-
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

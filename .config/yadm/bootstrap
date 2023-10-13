@@ -4,11 +4,18 @@ system_type=$(uname -s)
 
 echo "YADM BOOTSTRAP: $sytem_type"
 echo "home: $HOME"
-ls -als $HOME
 
+PLUG_DIR=${HOME}/.plugs/
+mkdir -p ${PLUG_DIR}
+
+printf 'zsh Autocomplete? (y/n)? '
+read answer
+mkdir -p .zsh_plugins
+if [ "$answer" != "${answer#[Yy]}" ] ; then
+  git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ${PLUG_DIR}/zsh-autocomplete
+fi
 
 if [ "$system_type" = "Darwin" ]; then
-
   # install homebrew if it's missing
   if ! command -v brew >/dev/null 2>&1; then
     echo "Installing homebrew"
@@ -22,7 +29,11 @@ if [ "$system_type" = "Darwin" ]; then
     echo "setup fzf"
     $(brew --prefix)/opt/fzf/install
   fi
+fi
 
+printf 'Install ASDF? (y/n)? '
+read answer
+if [ "$answer" != "${answer#[Yy]}" ] ; then
   asdf plugin add asdf-plugin-manager https://github.com/asdf-community/asdf-plugin-manager.git
   asdf install asdf-plugin-manager 1.1.1
 
@@ -30,7 +41,6 @@ if [ "$system_type" = "Darwin" ]; then
 
   pip3 install neovim
   npm install -g neovim
-
 fi
 
 if [ ! -d "~/.tmux/plugins/tpm" ]; then
@@ -46,10 +56,14 @@ printf 'Install Meslo Nerd Font patched? (y/n)? '
 read answer
 if [ "$answer" != "${answer#[Yy]}" ] ; then
   # https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k
-  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf -P  /Library/Fonts/
-  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf -P  /Library/Fonts/
-  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf -P  /Library/Fonts/
-  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf -P  /Library/Fonts/
+  font_dir=${PLUG_DIR}/fonts
+  mkdir -p font_dir
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf -P  ${font_dir}
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf -P  ${font_dir}
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf -P  ${font_dir}
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf -P  ${font_dir}
+
+  echo "downloaded to ${font_dir} - manual add them to fontbook required"
 fi
 
 power_dir="${HOME}/.powerlevel10k"
