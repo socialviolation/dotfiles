@@ -9,7 +9,7 @@ export PATH=/usr/local/Cellar/:/usr/local/bin/:/usr/local/sbin:$HOME/.asdf/shims
 export EDITOR=nvim
 export VISUAL=nvim
 
-source ~/.powerlevel10k/powerlevel10k.zsh-theme
+source ~/.plugs/.powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -24,7 +24,7 @@ export T_SESSION_USE_GIT_ROOT="true"
 
 
 # Auto complete
-source ~/.zsh_plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+source ~/.plugs/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # Auto-complete - Make Tab go straight to the menu and cycle there
 bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
