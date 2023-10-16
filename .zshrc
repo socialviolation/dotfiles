@@ -13,6 +13,20 @@ source ~/.plugs/.powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_OPTS="--layout=reverse --inline-info"
+export FZF_CTRL_T_OPTS="
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+# CTRL-/ to toggle small preview window to see the full command
+# CTRL-Y to copy the command into clipboard using pbcopy
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}' --preview-window up:3:hidden:wrap
+  --bind 'ctrl-/:toggle-preview'
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
+export FZF_COMPLETION_OPTS='--border --info=inline'
+
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
 # TMUX SESSION MANAGER
@@ -28,21 +42,15 @@ source ~/.plugs/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # Auto-complete - Make Tab go straight to the menu and cycle there
 bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
-bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
-# Auto-complete - first common substring
-# all Tab widgets
+#bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
-# all history widgets
 zstyle ':autocomplete:*history*:*' insert-unambiguous yes
-# ^S
 zstyle ':autocomplete:menu-search:*' insert-unambiguous yes
+zstyle ':autocomplete:history-incremental-search-backward:*' list-lines 12
+zstyle ':autocomplete:history-search-backward:*' list-lines 12
 
 alias ls="ls -l"
 alias :q="exit"
-alias dc="docker compose"
-alias tf="terraform"
-alias tg="terragrunt"
-alias k="kubectl"
 alias tmux="tmux attach -t main || tmux new-session -t main"
 alias tms="${HOME}/.tmux-sessionizer"
 
@@ -54,8 +62,4 @@ export PATH=$PATH:$GOPATH/bin:$HOME/bin
 alias wip='dig @resolver4.opendns.com myip.opendns.com +short'
 alias wipc='wip | pbcopy;echo copied to clipboard'
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '${HOME}/google-cloud-sdk/path.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '${HOME}/google-cloud-sdk/completion.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '${HOME}/.user.zshrc' ]; then . '${HOME}/.user.zshrc'; fi
