@@ -5,12 +5,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export PATH=${HOME}/.asdf/shims:/usr/local/Cellar:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=/usr/local/Cellar:/usr/local/bin:/usr/local/sbin:$PATH
 export EDITOR=nvim
 export VISUAL=nvim
 export PROJECT_DIRS=(
   ~/dev
-  ~/go/src/github.com/nick-freemantle-anz
+  ~/go/src/github.com/socialviolation
 )
 
 source ~/.plugs/.powerlevel10k/powerlevel10k.zsh-theme
@@ -31,6 +31,9 @@ export FZF_COMPLETION_OPTS='--border --info=inline'
 
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
+eval "$(rtx activate zsh)"
+
+
 # TMUX SESSION MANAGER
 export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
 export PATH=$HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
@@ -39,26 +42,17 @@ export T_SESSION_USE_GIT_ROOT="true"
 
 # Auto complete
 source ~/.plugs/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-# Auto-complete - Make Tab go straight to the menu and cycle there
 bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
-#bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
 zstyle ':autocomplete:*history*:*' insert-unambiguous yes
 zstyle ':autocomplete:menu-search:*' insert-unambiguous yes
-# Autocompletion
 zstyle -e ':autocomplete:list-choices:*' list-lines 'reply=( 8 )'
-# Override history search.
 zstyle ':autocomplete:history-incremental-search-backward:*' list-lines 8
-# History menu.
 zstyle ':autocomplete:history-search-backward:*' list-lines 8
 
 alias ls="ls -l"
 alias :q="exit"
-alias dc="docker compose"
-alias tf="terraform"
-alias tg="terragrunt"
-alias k="kubectl"
 alias mainmux="tmux attach -t main || tmux new-session -t main"
 alias vmux="${HOME}/.tmux-sessionizer"
 
@@ -71,7 +65,6 @@ alias wip='dig @resolver4.opendns.com myip.opendns.com +short'
 alias wipc='wip | pbcopy;echo copied tsource clipboard'
 
 if [ -f "${HOME}/.user.zshrc" ]; then source "${HOME}/.user.zshrc"; fi
-
 
 cf() {
     cd $(find ${PROJECT_DIRS} -mindepth 1 -maxdepth 1 -type d | fzf)
