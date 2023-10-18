@@ -38,9 +38,6 @@ if [ "$answer" != "${answer#[Yy]}" ] ; then
   asdf install asdf-plugin-manager 1.1.1
 
   asdf-plugin-manager add-all
-
-  pip3 install neovim
-  npm install -g neovim
 fi
 
 if [ ! -d "~/.tmux/plugins/tpm" ]; then
@@ -51,6 +48,15 @@ if [ ! -d "~/.tmux/plugins/tpm" ]; then
   fi
 fi
 
+
+printf 'Setup Neovim? (y/n)'
+read answer
+if [ "$answer" != "${answer#[Yy]}" ] ; then
+  git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+  
+  pip3 install neovim
+  npm install -g neovim
+fi
 
 printf 'Install Meslo Nerd Font patched? (y/n)? '
 read answer
