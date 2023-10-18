@@ -10,7 +10,7 @@ mkdir -p ${PLUG_DIR}
 
 printf 'zsh Autocomplete? (y/n)? '
 read answer
-mkdir -p .zsh_plugins
+mkdir -p ${PLUG_DIR}
 if [ "$answer" != "${answer#[Yy]}" ] ; then
   git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ${PLUG_DIR}/zsh-autocomplete
 fi

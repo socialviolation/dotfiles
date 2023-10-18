@@ -99,8 +99,6 @@
   # Remember my merges
   # http://gitfu.wordpress.com/2008/04/20/git-rerere-rereremember-what-you-did-last-time/
   enabled = true
-[include]
-  path = .gitconfig.user
 [user]
   name = Nick Freemantle
   email = ng.freemantle@gmail.com
@@ -114,3 +112,5 @@
   rebase = false
 [url "git@github.com:"]
   insteadOf = https://github.com/
+[include]
+  path = .gitconfig.user
