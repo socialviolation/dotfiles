@@ -1,4 +1,5 @@
 vim.opt.guicursor = ""
+--vim.opt.guifont=Meso\ LG\ S\ DZ\ for\ Powerline\ 11
 
 vim.opt.nu = true
 vim.opt.relativenumber = true

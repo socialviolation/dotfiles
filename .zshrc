@@ -5,14 +5,25 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export PATH=/usr/local/Cellar:/usr/local/bin:/usr/local/sbin:$HOME/.asdf/shims:$PATH
+export PATH=${HOME}/.asdf/shims:/usr/local/Cellar:/usr/local/bin:/usr/local/sbin:$PATH
 export EDITOR=nvim
 export VISUAL=nvim
 
 source ~/.plugs/.powerlevel10k/powerlevel10k.zsh-theme
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+export FZF_CTRL_T_OPTS="
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}' --preview-window up:3:hidden:wrap
+  --bind 'ctrl-/:toggle-preview'
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
+export FZF_ALT_C_OPTS="--preview 'tree -C {}'"    
+
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
 # TMUX SESSION MANAGER
@@ -36,6 +47,12 @@ zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
 zstyle ':autocomplete:*history*:*' insert-unambiguous yes
 # ^S
 zstyle ':autocomplete:menu-search:*' insert-unambiguous yes
+# Autocompletion
+zstyle -e ':autocomplete:list-choices:*' list-lines 'reply=( 8 )'
+# Override history search.
+zstyle ':autocomplete:history-incremental-search-backward:*' list-lines 8
+# History menu.
+zstyle ':autocomplete:history-search-backward:*' list-lines 8
 
 alias ls="ls -l"
 alias :q="exit"
@@ -43,8 +60,8 @@ alias dc="docker compose"
 alias tf="terraform"
 alias tg="terragrunt"
 alias k="kubectl"
-alias tmux="tmux attach -t main || tmux new-session -t main"
-alias tms="${HOME}/.tmux-sessionizer"
+alias mainmux="tmux attach -t main || tmux new-session -t main"
+alias vmux="${HOME}/.tmux-sessionizer"
 
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
@@ -52,10 +69,11 @@ export GO111MODULE=auto
 export PATH=$PATH:$GOPATH/bin:$HOME/bin
 
 alias wip='dig @resolver4.opendns.com myip.opendns.com +short'
-alias wipc='wip | pbcopy;echo copied to clipboard'
+alias wipc='wip | pbcopy;echo copied tsource clipboard'
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '${HOME}/google-cloud-sdk/path.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "${HOME}/.user.zshrc" ]; then source "${HOME}/.user.zshrc"; fi
 
-# The next line enables shell command completion for gcloud.
-if [ -f '${HOME}/google-cloud-sdk/completion.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/completion.zsh.inc'; fi
+
+cf() {
+    cd $(find ~/dev ~/go/src/github.com/nick-freemantle-anz -mindepth 1 -maxdepth 1 -type d | fzf)
+}
