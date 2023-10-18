@@ -1,4 +1,4 @@
-vim.opt.guicursor = ""
+vim.opt.guicursor = "n-v-c:block"
 --vim.opt.guifont=Meso\ LG\ S\ DZ\ for\ Powerline\ 11
 
 vim.opt.nu = true

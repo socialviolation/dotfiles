@@ -10,7 +10,7 @@ export EDITOR=nvim
 export VISUAL=nvim
 export PROJECT_DIRS=(
   ~/dev
-  ~/go/src/github.com/nick-freemantle-anz
+  ~/go/src/github.com/socialviolation
 )
 
 source ~/.plugs/.powerlevel10k/powerlevel10k.zsh-theme
@@ -74,5 +74,5 @@ if [ -f "${HOME}/.user.zshrc" ]; then source "${HOME}/.user.zshrc"; fi
 
 
 cf() {
-    cd $(find ${PROJECT_DIRS} -mindepth 1 -maxdepth 1 -type d | fzf)
+    cd $(find ${PROJECT_DIRS} -mindepth 1 -maxdepth 2 -type d | fzf)
 }
