@@ -8,6 +8,10 @@ fi
 export PATH=${HOME}/.asdf/shims:/usr/local/Cellar:/usr/local/bin:/usr/local/sbin:$PATH
 export EDITOR=nvim
 export VISUAL=nvim
+export PROJECT_DIRS=(
+  ~/dev
+  ~/go/src/github.com/nick-freemantle-anz
+)
 
 source ~/.plugs/.powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -22,14 +26,13 @@ export FZF_CTRL_R_OPTS="
   --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
   --color header:italic
   --header 'Press CTRL-Y to copy command into clipboard'"
-export FZF_ALT_C_OPTS="--preview 'tree -C {}'"    
+export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
+export FZF_COMPLETION_OPTS='--border --info=inline'
 
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
 # TMUX SESSION MANAGER
-# ~/.tmux/plugins
 export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
-# ~/.config/tmux/plugins
 export PATH=$HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
 export T_SESSION_USE_GIT_ROOT="true"
 
@@ -39,13 +42,9 @@ source ~/.plugs/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # Auto-complete - Make Tab go straight to the menu and cycle there
 bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
-bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
-# Auto-complete - first common substring
-# all Tab widgets
+#bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
-# all history widgets
 zstyle ':autocomplete:*history*:*' insert-unambiguous yes
-# ^S
 zstyle ':autocomplete:menu-search:*' insert-unambiguous yes
 # Autocompletion
 zstyle -e ':autocomplete:list-choices:*' list-lines 'reply=( 8 )'
@@ -75,5 +74,5 @@ if [ -f "${HOME}/.user.zshrc" ]; then source "${HOME}/.user.zshrc"; fi
 
 
 cf() {
-    cd $(find ~/dev ~/go/src/github.com/nick-freemantle-anz -mindepth 1 -maxdepth 1 -type d | fzf)
+    cd $(find ${PROJECT_DIRS} -mindepth 1 -maxdepth 1 -type d | fzf)
 }
