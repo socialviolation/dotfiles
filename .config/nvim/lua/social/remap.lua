@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 -- set in normal mode, pressing PV (project view) executes the :Ex (netrw)
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>pv", "<cmd>NERDTreeToggle<CR>") 
 
 -- Visual mode, if highlighted, move lines up and down 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -38,17 +38,11 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 -- make current file executable. 
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
--- packer sync 
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.config/nvim/lua/social/packer.lua<CR>");
-vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
--- source current file
-vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
-end)
-
 -- Custom nick
-vim.keymap.set("n", "<leader>et", "<cmd>NERDTreeToggle<CR>"); 
+vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
 
 -- Vimspector
 vim.keymap.set("n", "<leader>di", "<Plug>VimspectorBalloonEval");
 vim.keymap.set("v", "<leader>di", "<Plug>VimspectorBalloonEval");
+
+

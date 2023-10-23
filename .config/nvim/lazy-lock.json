@@ -18,6 +18,7 @@
   "plenary.nvim": { "branch": "master", "commit": "50012918b2fc8357b87cff2a7f7f0446e47da174" },
   "telescope.nvim": { "branch": "master", "commit": "7011eaae0ac1afe036e30c95cf80200b8dc3f21a" },
   "tokyonight.nvim": { "branch": "main", "commit": "531b04704fc9ff994d8b9c0720428fdc3c7d49d1" },
+  "undotree": { "branch": "master", "commit": "3ff3aa02fd3a18d7fc5be9ed3166d36c545707fe" },
   "vim-devicons": { "branch": "master", "commit": "71f239af28b7214eebb60d4ea5bd040291fb7e33" },
   "vim-fugitive": { "branch": "master", "commit": "cbe9dfa162c178946afa689dd3f42d4ea8bf89c1" },
   "vim-gitgutter": { "branch": "main", "commit": "f7b97666ae36c7b3f262f3190dbcd7033845d985" },
