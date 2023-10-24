@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+
 -- set in normal mode, pressing PV (project view) executes the :Ex (netrw)
 vim.keymap.set("n", "<leader>pv", "<cmd>NERDTreeToggle<CR>") 
 
