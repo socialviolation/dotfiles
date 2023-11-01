@@ -49,7 +49,7 @@ return {
                 end
             end)
 
-            require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
+            -- require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
             require("mason").setup({})
             require("mason-lspconfig").setup({
                     -- Replace the language servers listed here
@@ -64,12 +64,17 @@ return {
                 },
             })
 
+            lsp.set_sign_icons({
+                error = '✘',
+                warn = '▲',
+                hint = '⚑',
+                info = '»'
+            })
 
             lsp.setup()
             local cmp = require('cmp')
             -- local cmp_action = require('lsp-zero').cmp_action()
-            require('luasnip.loaders.from_vscode').lazy_load()
-            require('luasnip.loaders.from_snipmate').lazy_load()
+            require('luasnip.loaders.from_vscode').load()
             local cmp_select = {behavior = cmp.SelectBehavior.Select}
             cmp.setup({
                 sources = {
@@ -84,7 +89,7 @@ return {
                     ['<C-y>'] = cmp.mapping.confirm({ select = true }),
                     ['<C-Space>'] = cmp.mapping.complete(),
                 }),
-            })        
+            })
         end
         },
     { 'saadparwaiz1/cmp_luasnip' },

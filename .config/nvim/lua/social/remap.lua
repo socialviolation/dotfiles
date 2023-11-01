@@ -16,6 +16,8 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 -- don't replace buffer while overwrite pasting
 vim.keymap.set("x", "<leader>p", [["_dP]])
+-- Quick Fix list
+vim.keymap.set("x", "<leader>w", "<cmd>w<CR>")
 
 -- Leader yank, copies to system clipboard instead of vim buffer
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
