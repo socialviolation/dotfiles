@@ -1,8 +1,9 @@
 vim.g.mapleader = " "
 
 -- set in normal mode, pressing PV (project view) executes the :Ex (netrw)
-vim.keymap.set("n", "<leader>pv", "<cmd>NERDTreeToggle<CR>") 
-
+vim.keymap.set("n", "<leader>nv", "<cmd>NERDTreeToggle<CR>")
+vim.keymap.set("n", "<leader>nf", "<cmd>NERDTreeFind<CR>")
+vim.keymap.set("n", "<leader>c/", "<cmd>noh<CR>")
 -- Visual mode, if highlighted, move lines up and down 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")

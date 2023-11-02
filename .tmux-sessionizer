@@ -1,25 +1,27 @@
 #!/usr/bin/env bash
 
-if [[ $# -eq 1 ]]; then
-    selected=$1
-else
-    selected=$(find ~/dev -mindepth 1 -maxdepth 1 -type d | fzf)
-fi
+PROJECT_DIRS=(
+    /Users/freeman1/go/src/github.com/nick-freemantle-anz 
+    /Users/freeman1/dev
+)
+selected=$(find  /Users/freeman1/go/src/github.com/nick-freemantle-anz /Users/freeman1/dev -mindepth 1 -maxdepth 1 -type d | fzf)
 
 if [[ -z $selected ]]; then
+    echo "not selected?"
     exit 0
 fi
-
+echo $selected
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -s $selected_name -c $selected
+    echo "new session"
     exit 0
 fi
 
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
     tmux new-session -ds $selected_name -c $selected
 fi
-
-tmux switch-client -t $selected_name
+echo "joining session"
+tmux attach-session -t $selected_name
