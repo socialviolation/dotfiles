@@ -31,13 +31,17 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
 
+vim.opt.whichwrap:append("<,>,h,l,[,]")
 vim.opt.fillchars = {
-  horiz = '+',
-  horizup = '┻',
+  horiz     = '━',
+  horizup   = '┻',
   horizdown = '┳',
-  vert = '┃',
+  vert      = '┃',
   vertleft  = '┫',
   vertright = '┣',
   verthoriz = '╋',
+  eob       = ' ',
+  fold      = ' ',
+  diff      = '╱'
 }
 

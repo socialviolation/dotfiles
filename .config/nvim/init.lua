@@ -17,7 +17,7 @@ vim.g.mapleader = " "
 
 require("lazy").setup({import = "plugins"})
 
-require("social.init")
-require("social.set")
-require("social.remap")
+require("social/init")
+require("social/set")
+require("social/remap")
 
