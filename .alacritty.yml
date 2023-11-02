@@ -1,13 +1,7 @@
 # https://raw.githubusercontent.com/alacritty/alacritty/master/alacritty.yml
 live_config_reload: true
 window:
-  opacity: 0.85
-  # dimensions:
-    # columns: 2
-    # lines: 2
-  # padding:
-    # x: 0
-    # y: 0
+  opacity: 0.8
   dynamic_padding: false
   dynamic_title: true
   decorations: full
@@ -74,12 +68,12 @@ cursor:
     shape: Beam
   unfocused_hollow: true
 
-shell:
-  program: /bin/zsh
-  args:
-    - --login
-    - -c
-    - 'tmux -u attach || tmux -u new -s main'
+# shell:
+#   program: /bin/zsh
+#   args:
+#     - '--login'
+#     - '-c'
+#     - '~/.alacritty.sh'
 
 working_directory: None
 

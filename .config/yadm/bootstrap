@@ -2,13 +2,20 @@
 
 system_type=$(uname -s)
 
-echo "$system_type"
+echo "YADM BOOTSTRAP: $sytem_type"
 echo "home: $HOME"
-ls -als $HOME
+
+PLUG_DIR=${HOME}/.plugs/
+mkdir -p ${PLUG_DIR}
+
+printf 'zsh Autocomplete? (y/n)? '
+read answer
+mkdir -p ${PLUG_DIR}
+if [ "$answer" != "${answer#[Yy]}" ] ; then
+  git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ${PLUG_DIR}/zsh-autocomplete
+fi
+
 if [ "$system_type" = "Darwin" ]; then
-
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
   # install homebrew if it's missing
   if ! command -v brew >/dev/null 2>&1; then
     echo "Installing homebrew"
@@ -18,32 +25,60 @@ if [ "$system_type" = "Darwin" ]; then
   if [ -f "$HOME/.Brewfile" ]; then
     echo "Updating homebrew bundle"
     brew bundle --global --file $HOME/.Brewfile
-    echo "installing nvim plugins"
-    nvim +PlugInstall +UpdateRemotePlugins +qa
-
-    echo "installing powerline fonts"
-    # clone
-    git clone https://github.com/powerline/fonts.git --depth=1
-    # install
-    cd fonts
-    ./install.sh
-    # clean-up a bit
-    cd ..
-    rm -rf fonts
 
     echo "setup fzf"
     $(brew --prefix)/opt/fzf/install
   fi
+fi
 
+printf 'Install ASDF? (y/n)? '
+read answer
+if [ "$answer" != "${answer#[Yy]}" ] ; then
   asdf plugin add asdf-plugin-manager https://github.com/asdf-community/asdf-plugin-manager.git
   asdf install asdf-plugin-manager 1.1.1
 
   asdf-plugin-manager add-all
-
-  pip3 install neovim
-  npm install -g neovim
-
 fi
 
-#NOTEPAD_DIR="$HOME/dev/notepad"
-#[ ! -d "$NOTEPAD_DIR" ] && git clone git@github.com:socialviolation/notepad.git ${NOTEPAD_DIR}
+if [ ! -d "~/.tmux/plugins/tpm" ]; then
+  printf 'Install TPM (tmux)? (y/n)? '
+  read answer
+  if [ "$answer" != "${answer#[Yy]}" ] ; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  fi
+fi
+
+
+printf 'Setup Neovim? (y/n)'
+read answer
+if [ "$answer" != "${answer#[Yy]}" ] ; then
+  git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+  
+  pip3 install neovim
+  npm install -g neovim
+fi
+
+printf 'Install Meslo Nerd Font patched? (y/n)? '
+read answer
+if [ "$answer" != "${answer#[Yy]}" ] ; then
+  # https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k
+  font_dir=${PLUG_DIR}/fonts
+  mkdir -p font_dir
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf -P  ${font_dir}
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf -P  ${font_dir}
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf -P  ${font_dir}
+  wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf -P  ${font_dir}
+
+  echo "downloaded to ${font_dir} - manual add them to fontbook required"
+fi
+
+power_dir="${HOME}/.powerlevel10k"
+if [ ! -d "$power_dir" ]; then
+  printf 'Install powerlevel10k (y/n)? '
+  read answer
+
+  if [ "$answer" != "${answer#[Yy]}" ] ;then 
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $power_dir
+  fi
+fi
+

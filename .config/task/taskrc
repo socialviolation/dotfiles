@@ -11,7 +11,7 @@
 # Use the command 'task show' to see all defaults and overrides
 
 # Files
-data.location=~/dev/notepad/.task
+data.location=~/.task
 
 # Color theme (uncomment one to use)
 #include /usr/local/Cellar/task/2.5.3_1/share/doc/task/rc/light-16.theme
@@ -29,3 +29,4 @@ data.location=~/dev/notepad/.task
 #include /usr/local/Cellar/task/2.5.3_1/share/doc/task/rc/solarized-light-256.theme
 #include /usr/local/Cellar/task/2.5.3_1/share/doc/task/rc/no-color.theme
 
+news.version=2.6.0
