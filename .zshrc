@@ -6,6 +6,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+autoload -Uz compinit
+compinit
+
 export PATH=/usr/local/Cellar:/usr/local/bin:/usr/local/sbin:$PATH
 export EDITOR=nvim
 export VISUAL=nvim
@@ -14,7 +17,7 @@ export PROJECT_DIRS=(
   ~/go/src/github.com/socialviolation
 )
 
-source ~/.plugs/.powerlevel10k/powerlevel10k.zsh-theme
+source ~/.plugs/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
@@ -40,8 +43,8 @@ export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
 export PATH=$HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
 export T_SESSION_USE_GIT_ROOT="true"
 
-
-# Auto complete
+#source ~/.plugs/zsh-autosuggestions/zsh-autosuggestions.zsh
+#bindkey '\t' autosuggest-fetch
 source ~/.plugs/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
@@ -54,8 +57,13 @@ zstyle ':autocomplete:history-search-backward:*' list-lines 8
 
 alias ls="ls -l"
 alias :q="exit"
-alias mainmux="tmux attach -t main || tmux new-session -t main"
+alias mainmux="tmux new-session -A -s main"
 alias vmux="${HOME}/.tmux-sessionizer"
+alias da="direnv allow"
+alias lg="lazygit"
+
+alias k=kubectl
+source <(kubectl completion zsh)
 
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin

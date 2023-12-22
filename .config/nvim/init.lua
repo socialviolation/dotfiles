@@ -14,6 +14,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " "
+vim.g.loaded_netrwPlugin = 0
 
 require("lazy").setup({import = "plugins"})
 

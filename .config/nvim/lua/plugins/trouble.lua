@@ -1,3 +1,4 @@
+-- Better inline diagnostic warnings etc
 return {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
