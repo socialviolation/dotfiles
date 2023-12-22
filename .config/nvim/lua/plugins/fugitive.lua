@@ -1,3 +1,4 @@
+-- Git integration
 return {
 	'tpope/vim-fugitive',
 	init = function()

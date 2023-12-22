@@ -1,3 +1,4 @@
 nodejs 20.8.0
 golang 1.21.3
-python 3.9.18
+python 3.8
+rust   1.74
