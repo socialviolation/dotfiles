@@ -10,6 +10,9 @@
   old = red
   new = green
 [alias]
+  pl = pull                         # pull
+  # push
+  pu = push -u origin HEAD
   # add
   chunkyadd = add --patch           # stage commits chunk by chunk
 
@@ -109,5 +112,8 @@
   rebase = false
 [url "git@github.com:"]
   insteadOf = https://github.com/
+[user]
+  name = Nick Freemantle
+  email = ng.freemantle@gmail.com
 [include]
   path = .gitconfig.user

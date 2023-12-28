@@ -54,7 +54,8 @@ zstyle ':autocomplete:history-search-backward:*' list-lines 8
 
 alias ls="ls -l"
 alias :q="exit"
-alias mainmux="tmux attach -t main || tmux new-session -t main"
+alias lg="lazygit"
+alias mainmux="tmux new-session -A -s main"
 alias vmux="${HOME}/.tmux-sessionizer"
 
 export GOPATH=$HOME/go

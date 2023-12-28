@@ -1,7 +1,7 @@
 # https://raw.githubusercontent.com/alacritty/alacritty/master/alacritty.yml
 live_config_reload: true
 window:
-  opacity: 0.8
+  opacity: 1.0
   dynamic_padding: false
   dynamic_title: true
   decorations: full
