@@ -1,3 +1,3 @@
 return {
-	'ryanoasis/vim-devicons', priority=100
+	'ryanoasis/vim-devicons', priority=500
 }

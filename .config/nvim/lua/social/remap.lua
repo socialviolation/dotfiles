@@ -1,8 +1,9 @@
 vim.g.mapleader = " "
 
 -- set in normal mode, pressing PV (project view) executes the :Ex (netrw)
-vim.keymap.set("n", "<leader>nv", "<cmd>NERDTreeToggle<CR>")
-vim.keymap.set("n", "<leader>nf", "<cmd>NERDTreeFind<CR>")
+vim.keymap.set("n", "<leader>nt", "<cmd>Neotree toggle<CR>")
+vim.keymap.set("n", "<leader>nf", "<cmd>Neotree reveal<CR>")
+vim.keymap.set("n", "<leader>ng", "<cmd>Neotree float git_status<CR>")
 vim.keymap.set("n", "<leader>c/", "<cmd>noh<CR>")
 -- Visual mode, if highlighted, move lines up and down 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -45,8 +46,12 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 -- Custom nick
 vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
 
--- Vimspector
-vim.keymap.set("n", "<leader>di", "<Plug>VimspectorBalloonEval");
-vim.keymap.set("v", "<leader>di", "<Plug>VimspectorBalloonEval");
-
-
+-- setup neotree as default & disable netrw
+-- vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrw = 1
+vim.api.nvim_create_autocmd("VimEnter", {
+    command = "set nornu nonu | Neotree toggle",
+})
+vim.api.nvim_create_autocmd("BufEnter", {
+    command = "set rnu nu",
+})
