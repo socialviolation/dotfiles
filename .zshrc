@@ -90,7 +90,6 @@ export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export GO111MODULE=auto
 export PATH=$PATH:$GOPATH/bin:$HOME/bin
-export GEMINI_API_KEY="AIzaSyBQD_TyUWhts2GJ-59qP4uz6qtyihiEFL8"
 
 alias wip='dig @resolver4.opendns.com myip.opendns.com +short'
 alias wipc='wip | pbcopy;echo copied tsource clipboard'
