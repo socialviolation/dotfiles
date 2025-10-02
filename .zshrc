@@ -1,11 +1,3 @@
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-
 autoload -Uz compinit
 compinit
 
@@ -17,7 +9,6 @@ export PROJECT_DIRS=(
   ~/go/src/github.com/socialviolation
 )
 
-# source ~/.plugs/powerlevel10k/powerlevel10k.zsh-theme
 source ~/.powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -45,8 +36,6 @@ export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
 export PATH=$HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
 export T_SESSION_USE_GIT_ROOT="true"
 
-#source ~/.plugs/zsh-autosuggestions/zsh-autosuggestions.zsh
-#bindkey '\t' autosuggest-fetch
 source ~/.plugs/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
@@ -74,7 +63,6 @@ alias lg="lazygit"
 alias mainmux="tmux new-session -A -s main"
 alias vmux="${HOME}/.tmux-sessionizer"
 alias da="direnv allow"
-alias lg="lazygit"
 alias mr='mise run'
 alias en="nvim $(pwd)"
 alias ez="nvim ${HOME}/.zshrc"
@@ -105,29 +93,5 @@ if [ -f '/Users/nickfreemantle/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc'; fi
-
-export ANDROID_SDK="${HOME}/Library/Android/sdk"
-export PATH=${HOME}/dev/flutter/bin:${ANDROID_SDK}/cmdline-tools/latest/bin:${ANDROID_SDK}/emulator:${PATH}
-source "$HOME/.cargo/env"
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-# 
-#__conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-#if [ $? -eq 0 ]; then
-#    eval "$__conda_setup"
-#else
-#    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-#        . "/opt/anaconda3/etc/profile.d/conda.sh"
-#    else
-#        export PATH="/opt/anaconda3/bin:$PATH"
-#    fi
-#fi
-#unset __conda_setup
-# <<< conda initialize <<<
-
-
-# Added by Windsurf
-export PATH="/Users/nickfreemantle/.codeium/windsurf/bin:$PATH"
 
 . "$HOME/.local/bin/env"
