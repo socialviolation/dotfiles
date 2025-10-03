@@ -7,3 +7,8 @@ vim.keymap.set("n", "W", function()
   require("bufferline.commands").cycle(-1)
   vim.cmd("bd #")
 end, { desc = "Delete buffer and go to previous" })
+-- Unbind arrow keys in all modes
+vim.keymap.set({ "n", "i", "v" }, "<Up>", "<Nop>", { desc = "Disable up arrow" })
+vim.keymap.set({ "n", "i", "v" }, "<Down>", "<Nop>", { desc = "Disable down arrow" })
+vim.keymap.set({ "n", "i", "v" }, "<Left>", "<Nop>", { desc = "Disable left arrow" })
+vim.keymap.set({ "n", "i", "v" }, "<Right>", "<Nop>", { desc = "Disable right arrow" })
