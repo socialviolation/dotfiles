@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_DIRS=(
-    /Users/freeman1/go/src/github.com/nick-freemantle-anz 
-    /Users/freeman1/dev
-)
-selected=$(find  /Users/freeman1/go/src/github.com/nick-freemantle-anz /Users/freeman1/dev -mindepth 1 -maxdepth 1 -type d | fzf)
+selected=$(find ${HOME}/dev/ ${HOME}/dev/navexa ${HOME}/dev/wattle -mindepth 1 -maxdepth 1 -type d | fzf)
 
 if [[ -z $selected ]]; then
     echo "not selected?"
