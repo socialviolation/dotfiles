@@ -1,17 +1,36 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 autoload -Uz compinit
 compinit
 
-export PATH=/usr/local/Cellar:/usr/local/bin:/usr/local/sbin:/Users/nickfreemantle/.local/bin:$PATH
-export EDITOR=nvim
-export VISUAL=nvim
-export PROJECT_DIRS=(
-  ~/dev
-  ~/go/src/github.com/socialviolation
-)
+### ZSH HOME
+export ZSH=$HOME/.zsh
 
-source ~/.powerlevel10k/powerlevel10k.zsh-theme
+### ---- history config -------------------------------------
+export HISTFILE=$ZSH/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+
+export PATH=$HOME/bin:/usr/local/bin:/snap/bin:/opt/bin:$PATH 
+. "$HOME/.powerlevel10k/powerlevel10k.zsh-theme"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source $ZSH/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+fpath=($ZSH/plugins/zsh-completions/src $fpath)
+rm -f ~/.zcompdump; compinit
+
+eval "$(mise activate zsh)"
+eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
+source <(fzf --zsh)
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 export FZF_CTRL_T_OPTS="
   --preview 'bat -n --color=always {}'
@@ -25,27 +44,6 @@ export FZF_CTRL_R_OPTS="
 export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
 export FZF_COMPLETION_OPTS='--border --info=inline'
 
-eval "$(zoxide init zsh)"
-eval "$(direnv hook zsh)"
-eval "$(mise activate zsh)"
-#eval "$(mise activate zsh)"
-#export PATH="$HOME/.local/share/mise/shims:$PATH"
-
-# TMUX SESSION MANAGER
-export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
-export PATH=$HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
-export T_SESSION_USE_GIT_ROOT="true"
-
-source ~/.plugs/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
-bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
-zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
-zstyle ':autocomplete:*history*:*' insert-unambiguous yes
-zstyle ':autocomplete:menu-search:*' insert-unambiguous yes
-zstyle -e ':autocomplete:list-choices:*' list-lines 'reply=( 8 )'
-zstyle ':autocomplete:history-incremental-search-backward:*' list-lines 8
-zstyle ':autocomplete:history-search-backward:*' list-lines 8
-
 function _gcp() {
     if [ -z "$1" ]; then
         echo "Error: Commit message is required"
@@ -54,15 +52,12 @@ function _gcp() {
     git add . && git commit -m "$1" && git push
 }
 
-alias gcp='_gcp'
-alias fdns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
-
-alias ls="ls -l"
+alias ls="eza"
 alias :q="exit"
-alias lg="lazygit"
-alias mainmux="tmux new-session -A -s main"
-alias vmux="${HOME}/.tmux-sessionizer"
+alias mm="tmux new-session -A -s main"
+alias nm="${HOME}/.config/profile/.tmux-sessionizer"
 alias da="direnv allow"
+alias lg="lazygit"
 alias mr='mise run'
 alias en="nvim $(pwd)"
 alias ez="nvim ${HOME}/.zshrc"
@@ -70,28 +65,8 @@ alias k=kubectl
 alias dc="docker compose"
 alias src="source ~/.zshrc"
 alias gs="git status"
+alias gcp='_gcp'
 alias gcpc="gcp checkpoint"
 source <(kubectl completion zsh)
-
-export HOMEBREW_NO_AUTO_UPDATE=1
-export GOPATH=$HOME/go
-export GOBIN=$GOPATH/bin
-export GO111MODULE=auto
-export PATH=$PATH:$GOPATH/bin:$HOME/bin
-
-alias wip='dig @resolver4.opendns.com myip.opendns.com +short'
-alias wipc='wip | pbcopy;echo copied tsource clipboard'
-
-if [ -f "${HOME}/.user.zshrc" ]; then source "${HOME}/.user.zshrc"; fi
-
-cf() {
-    cd $(find ${PROJECT_DIRS} -mindepth 1 -maxdepth 2 -type d | fzf)
-}
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/nickfreemantle/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nickfreemantle/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nickfreemantle/google-cloud-sdk/completion.zsh.inc'; fi
 
 . "$HOME/.local/bin/env"
