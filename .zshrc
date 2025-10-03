@@ -55,7 +55,7 @@ function _gcp() {
 alias ls="eza"
 alias :q="exit"
 alias mm="tmux new-session -A -s main"
-alias nm="${HOME}/.config/profile/.tmux-sessionizer"
+alias nm="${HOME}/.config/.tmux-sessionizer"
 alias da="direnv allow"
 alias lg="lazygit"
 alias mr='mise run'
