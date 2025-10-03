@@ -5,7 +5,10 @@ set -e
 echo "==> Starting YADM Bootstrap"
 
 # Detect package manager
-if command -v pacman &> /dev/null; then
+if command -v yay &> /dev/null; then
+    PKG_MANAGER="yay"
+    INSTALL_CMD="yay -S --noconfirm"
+elif command -v pacman &> /dev/null; then
     PKG_MANAGER="pacman"
     INSTALL_CMD="sudo pacman -S --noconfirm"
 elif command -v apt-get &> /dev/null; then
@@ -20,6 +23,41 @@ else
 fi
 
 echo "==> Detected package manager: $PKG_MANAGER"
+
+# Install essential tools (cross-platform)
+echo "==> Installing essential tools"
+if [ "$PKG_MANAGER" = "yay" ] || [ "$PKG_MANAGER" = "pacman" ]; then
+    $INSTALL_CMD fzf zoxide python python-pip direnv mise
+elif [ "$PKG_MANAGER" = "apt" ]; then
+    $INSTALL_CMD fzf python3 python3-pip direnv
+    # zoxide and mise not in apt repos, install later
+elif [ "$PKG_MANAGER" = "dnf" ]; then
+    $INSTALL_CMD fzf zoxide python3 python3-pip direnv
+fi
+
+# Install mise if not already installed (for non-arch systems)
+if ! command -v mise &> /dev/null; then
+    echo "==> Installing mise"
+    curl https://mise.run | sh
+else
+    echo "==> mise already installed"
+fi
+
+# Install zoxide if not already installed (for non-arch systems)
+if ! command -v zoxide &> /dev/null; then
+    echo "==> Installing zoxide"
+    curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+else
+    echo "==> zoxide already installed"
+fi
+
+# Install uv (cross-platform)
+if ! command -v uv &> /dev/null; then
+    echo "==> Installing uv"
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+else
+    echo "==> uv already installed"
+fi
 
 # Install zsh if not installed
 if ! command -v zsh &> /dev/null; then
