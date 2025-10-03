@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Remove dotfiles-specific Claude commands from home after yadm checkout
-# This prevents these commands from cluttering other projects
+# Remove dotfiles-specific files from home after yadm checkout
+# This prevents these files from cluttering other projects
 
 if [ -f "$HOME/.claude/commands/merge.md" ]; then
     echo "🧹 Removing dotfiles-specific Claude command: merge"
@@ -11,4 +11,9 @@ fi
 if [ -f "$HOME/.claude/commands/sync.md" ]; then
     echo "🧹 Removing dotfiles-specific Claude command: sync"
     rm -f "$HOME/.claude/commands/sync.md"
+fi
+
+if [ -f "$HOME/sync" ]; then
+    echo "🧹 Removing dotfiles sync script from home"
+    rm -f "$HOME/sync"
 fi

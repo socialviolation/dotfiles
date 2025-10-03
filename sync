@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Context-aware dotfiles sync script
+# Only works when run from the dotfiles git repository
+
+set -e
+
+# Check if we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "❌ Error: Not in a git repository"
+    exit 1
+fi
+
+# Check if this is the dotfiles repo by looking for specific files
+if [ ! -f "CLAUDE.md" ] || [ ! -f ".zshrc" ]; then
+    echo "❌ Error: This doesn't appear to be the dotfiles repository"
+    echo "   Expected to find CLAUDE.md and .zshrc"
+    exit 1
+fi
+
+echo "🔄 Syncing dotfiles..."
+
+# Generate random commit messages
+MESSAGES=(
+    "Update configs"
+    "Sync dotfiles"
+    "Config tweaks"
+    "Minor adjustments"
+    "Dotfiles maintenance"
+    "Configuration updates"
+    "System sync"
+    "Environment updates"
+    "Settings refresh"
+    "Workspace updates"
+)
+
+# Pick random message
+RANDOM_MSG=${MESSAGES[$RANDOM % ${#MESSAGES[@]}]}
+
+# Stage all changes
+git add -A
+
+# Check if there are changes to commit
+if git diff --staged --quiet; then
+    echo "✅ No changes to commit"
+else
+    echo "📝 Committing with message: $RANDOM_MSG"
+    git commit -m "$RANDOM_MSG"
+fi
+
+# Push changes
+echo "⬆️  Pushing to remote..."
+git push
+
+# Pull changes to home directory via yadm
+echo "⬇️  Pulling changes to home directory..."
+yadm pull
+
+echo "✅ Sync complete!"

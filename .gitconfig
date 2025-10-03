@@ -110,8 +110,6 @@
   defaultBranch = main
 [pull]
   rebase = false
-[url "git@github.com:"]
-  insteadOf = https://github.com/
 [user]
   name = Nick Freemantle
   email = nick@fmtl.au
