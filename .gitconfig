@@ -95,9 +95,9 @@
 	editor = nvim
 	excludesfile = ~/.gitignore
 [diff]
-  tool = icdiff
-[difftool "icdiff"]
-  cmd = icdiff --line-numbers $LOCAL $REMOTE
+  tool = nvimdiff
+[difftool "nvimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE
 [rerere]
   # Remember my merges
   # http://gitfu.wordpress.com/2008/04/20/git-rerere-rereremember-what-you-did-last-time/
@@ -114,6 +114,6 @@
   insteadOf = https://github.com/
 [user]
   name = Nick Freemantle
-  email = ng.freemantle@gmail.com
+  email = nick@fmtl.au
 [include]
   path = .gitconfig.user

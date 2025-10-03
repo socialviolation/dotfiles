@@ -70,3 +70,6 @@ alias gcpc="gcp checkpoint"
 source <(kubectl completion zsh)
 
 . "$HOME/.local/bin/env"
+
+# Load user-specific config if it exists
+[[ -f ~/.zshrc.user ]] && source ~/.zshrc.user
