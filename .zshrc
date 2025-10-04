@@ -29,7 +29,11 @@ rm -f ~/.zcompdump; compinit
 
 eval "$(mise activate zsh)"
 eval "$(zoxide init zsh)"
+
+# Silence direnv during initialization to prevent P10k instant prompt issues
+export DIRENV_LOG_FORMAT=
 eval "$(direnv hook zsh)"
+unset DIRENV_LOG_FORMAT
 source <(fzf --zsh)
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 export FZF_CTRL_T_OPTS="
