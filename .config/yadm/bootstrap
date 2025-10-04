@@ -4,8 +4,33 @@ set -e
 
 echo "==> Starting YADM Bootstrap"
 
-# Detect package manager
-if command -v yay &> /dev/null; then
+# Detect OS and package manager
+OS="$(uname -s)"
+
+if [ "$OS" = "Darwin" ]; then
+    # macOS detected
+    PKG_MANAGER="brew"
+    INSTALL_CMD="brew install"
+
+    # Install Homebrew if not already installed
+    if ! command -v brew &> /dev/null; then
+        echo "==> Installing Homebrew"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+        # Add Homebrew to PATH for current session
+        if [ -f "/opt/homebrew/bin/brew" ]; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+        elif [ -f "/usr/local/bin/brew" ]; then
+            eval "$(/usr/local/bin/brew shellenv)"
+        fi
+    else
+        echo "==> Homebrew already installed"
+    fi
+
+    # Update Homebrew
+    echo "==> Updating Homebrew"
+    brew update
+elif command -v yay &> /dev/null; then
     PKG_MANAGER="yay"
     INSTALL_CMD="yay -S --noconfirm"
 elif command -v pacman &> /dev/null; then
@@ -26,7 +51,9 @@ echo "==> Detected package manager: $PKG_MANAGER"
 
 # Install essential tools (cross-platform)
 echo "==> Installing essential tools"
-if [ "$PKG_MANAGER" = "yay" ] || [ "$PKG_MANAGER" = "pacman" ]; then
+if [ "$PKG_MANAGER" = "brew" ]; then
+    $INSTALL_CMD fzf zoxide python3 direnv mise
+elif [ "$PKG_MANAGER" = "yay" ] || [ "$PKG_MANAGER" = "pacman" ]; then
     $INSTALL_CMD fzf zoxide python python-pip direnv mise
 elif [ "$PKG_MANAGER" = "apt" ]; then
     $INSTALL_CMD fzf python3 python3-pip direnv
@@ -35,16 +62,16 @@ elif [ "$PKG_MANAGER" = "dnf" ]; then
     $INSTALL_CMD fzf zoxide python3 python3-pip direnv
 fi
 
-# Install mise if not already installed (for non-arch systems)
-if ! command -v mise &> /dev/null; then
+# Install mise if not already installed (for non-arch/non-brew systems)
+if ! command -v mise &> /dev/null && [ "$PKG_MANAGER" != "brew" ]; then
     echo "==> Installing mise"
     curl https://mise.run | sh
 else
     echo "==> mise already installed"
 fi
 
-# Install zoxide if not already installed (for non-arch systems)
-if ! command -v zoxide &> /dev/null; then
+# Install zoxide if not already installed (for non-arch/non-brew systems)
+if ! command -v zoxide &> /dev/null && [ "$PKG_MANAGER" != "brew" ]; then
     echo "==> Installing zoxide"
     curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 else
@@ -70,6 +97,12 @@ fi
 # Set zsh as default shell if not already
 if [ "$SHELL" != "$(which zsh)" ]; then
     echo "==> Setting zsh as default shell"
+    if [ "$OS" = "Darwin" ]; then
+        # On macOS, add zsh to /etc/shells if not there, then use chsh
+        if ! grep -q "$(which zsh)" /etc/shells; then
+            echo "$(which zsh)" | sudo tee -a /etc/shells
+        fi
+    fi
     chsh -s "$(which zsh)"
 else
     echo "==> zsh already default shell"
@@ -105,6 +138,12 @@ for plugin in "${!plugins[@]}"; do
         git -C "$plugin_dir" pull
     fi
 done
+
+# Install packages from Brewfile on macOS
+if [ "$OS" = "Darwin" ] && [ -f "$HOME/.Brewfile" ]; then
+    echo "==> Installing packages from Brewfile"
+    brew bundle --file="$HOME/.Brewfile" --no-lock
+fi
 
 # Clean up zcompdump
 echo "==> Cleaning zsh completion cache"
