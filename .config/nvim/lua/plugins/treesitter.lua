@@ -1,9 +1,4 @@
 return {
-  -- Import LazyVim language extras
-  { import = "lazyvim.plugins.extras.lang.go" },
-  { import = "lazyvim.plugins.extras.lang.python" },
-  { import = "lazyvim.plugins.extras.lang.typescript" },
-
   -- Ensure all Treesitter parsers are installed
   {
     "nvim-treesitter/nvim-treesitter",
