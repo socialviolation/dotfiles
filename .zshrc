@@ -75,8 +75,6 @@ bindkey -M viins '\es' sesh-sessions
 
 alias ls="eza"
 alias :q="exit"
-alias mm="tmux new-session -A -s main"
-alias nm="${HOME}/.config/tmux-sessionizer"
 alias da="direnv allow"
 alias lg="lazygit"
 alias mr='mise run'
