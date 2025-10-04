@@ -31,6 +31,7 @@ eval "$(mise activate zsh)"
 eval "$(zoxide init zsh)"
 
 # Silence direnv during initialization to prevent P10k instant prompt issues
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 export DIRENV_LOG_FORMAT=
 eval "$(direnv hook zsh)"
 unset DIRENV_LOG_FORMAT
