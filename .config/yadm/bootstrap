@@ -122,28 +122,27 @@ else
 fi
 
 # Install zsh plugins
-install_plugin() {
-    local plugin_name="$1"
-    local plugin_url="$2"
-    local plugin_dir="$HOME/.zsh/plugins/$plugin_name"
+declare -A plugins=(
+    ["fast-syntax-highlighting"]="https://github.com/zdharma-zmirror/fast-syntax-highlighting.git"
+    ["zsh-autosuggestions"]="https://github.com/zsh-users/zsh-autosuggestions.git"
+    ["zsh-completions"]="https://github.com/zsh-users/zsh-completions.git"
+)
 
+for plugin in "${!plugins[@]}"; do
+    plugin_dir="$HOME/.zsh/plugins/$plugin"
     if [ ! -d "$plugin_dir" ]; then
-        echo "==> Installing $plugin_name"
-        git clone --depth=1 "$plugin_url" "$plugin_dir"
+        echo "==> Installing $plugin"
+        git clone --depth=1 "${plugins[$plugin]}" "$plugin_dir"
     else
-        echo "==> $plugin_name already installed, updating..."
+        echo "==> $plugin already installed, updating..."
         git -C "$plugin_dir" pull
     fi
-}
-
-install_plugin "fast-syntax-highlighting" "https://github.com/zdharma-zmirror/fast-syntax-highlighting.git"
-install_plugin "zsh-autosuggestions" "https://github.com/zsh-users/zsh-autosuggestions.git"
-install_plugin "zsh-completions" "https://github.com/zsh-users/zsh-completions.git"
+done
 
 # Install packages from Brewfile on macOS
 if [ "$OS" = "Darwin" ] && [ -f "$HOME/.Brewfile" ]; then
     echo "==> Installing packages from Brewfile"
-    brew bundle --file="$HOME/.Brewfile"
+    brew bundle --file="$HOME/.Brewfile" --no-lock
 fi
 
 # Install JetBrainsMono Nerd Font
