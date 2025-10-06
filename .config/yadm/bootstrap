@@ -145,6 +145,43 @@ if [ "$OS" = "Darwin" ] && [ -f "$HOME/.Brewfile" ]; then
     brew bundle --file="$HOME/.Brewfile" --no-lock
 fi
 
+# Install JetBrainsMono Nerd Font
+echo "==> Installing JetBrainsMono Nerd Font"
+if [ "$PKG_MANAGER" = "brew" ]; then
+    if ! brew list --cask font-jetbrains-mono-nerd-font &> /dev/null; then
+        brew install --cask font-jetbrains-mono-nerd-font
+    else
+        echo "==> JetBrainsMono Nerd Font already installed"
+    fi
+elif [ "$PKG_MANAGER" = "yay" ]; then
+    if ! yay -Q ttf-jetbrains-mono-nerd &> /dev/null; then
+        yay -S --noconfirm ttf-jetbrains-mono-nerd
+    else
+        echo "==> JetBrainsMono Nerd Font already installed"
+    fi
+elif [ "$PKG_MANAGER" = "pacman" ]; then
+    if ! pacman -Q ttf-jetbrains-mono-nerd &> /dev/null; then
+        sudo pacman -S --noconfirm ttf-jetbrains-mono-nerd
+    else
+        echo "==> JetBrainsMono Nerd Font already installed"
+    fi
+else
+    # For apt/dnf and other systems, download and install manually
+    FONT_DIR="$HOME/.local/share/fonts"
+    if [ ! -f "$FONT_DIR/JetBrainsMonoNerdFont-Regular.ttf" ]; then
+        echo "==> Downloading JetBrainsMono Nerd Font"
+        mkdir -p "$FONT_DIR"
+        TEMP_DIR=$(mktemp -d)
+        curl -fLo "$TEMP_DIR/JetBrainsMono.zip" \
+            https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+        unzip -q "$TEMP_DIR/JetBrainsMono.zip" -d "$FONT_DIR"
+        rm -rf "$TEMP_DIR"
+        fc-cache -fv
+    else
+        echo "==> JetBrainsMono Nerd Font already installed"
+    fi
+fi
+
 # Clean up zcompdump
 echo "==> Cleaning zsh completion cache"
 rm -f "$HOME/.zcompdump"
