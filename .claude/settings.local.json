@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(yadm status:*)"
+      "Bash(yadm status:*)",
+      "Bash(brew list:*)",
+      "Bash(./sync)"
     ],
     "deny": [],
     "ask": []
