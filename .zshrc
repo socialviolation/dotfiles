@@ -69,11 +69,11 @@ function sesh-sessions() {
   }
 }
 
-zle     -N             sesh-sessions
-bindkey -M emacs '\es' sesh-sessions
+#zle     -N             sesh-sessions
+#bindkey -M emacs '\es' sesh-sessions
 bindkey -M vicmd '\es' sesh-sessions
-bindkey -M viins '\es' sesh-sessions
-alias nsesh="sesh connect $(sesh list | fzf)"
+#bindkey -M viins '\es' sesh-sessions
+#alias nsesh="sesh connect $(sesh list | fzf)"
 alias ls="eza"
 alias :q="exit"
 alias da="direnv allow"
