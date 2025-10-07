@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(yadm status:*)"
+      "Bash(yadm status:*)",
+      "Bash(yadm diff:*)"
     ],
     "deny": [],
     "ask": []
