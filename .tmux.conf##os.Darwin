@@ -57,12 +57,12 @@ set -g @catppuccin_window_default_fill "theme"
 set -g @catppuccin_window_current_fill "theme"
 
 # Load catppuccin
-run ~/.config/tmux/plugins/catppuccin/tmux/catppuccin.tmux
+run ~/.tmux/plugins/tmux/catppuccin.tmux
 
 # Make the status line pretty and add some modules
 set -g status-right-length 100
 set -g status-left-length 100
-set -g status-left ""
+set -g status-left "#{E:@catppuccin_status_window}"
 set -g status-right "#{E:@catppuccin_status_application}"
 set -ag status-right "#{E:@catppuccin_status_session}"
 
@@ -101,7 +101,7 @@ bind-key "T" run-shell "sesh connect \"$(
     --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
     --preview-window 'right:55%' \
     --preview 'sesh preview {}'
-)\""
+)\"
 
 # Load
 run '~/.tmux/plugins/tpm/tpm'
