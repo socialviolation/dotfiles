@@ -69,6 +69,11 @@ set -g @plugin 'catppuccin/tmux'
 
 # Load catppuccin theme (must be after plugin declaration, before tpm load)
 run ~/.tmux/plugins/tmux/catppuccin.tmux
+
+# Manually set window formats (workaround for catppuccin not setting them)
+set -g window-status-format "#[fg=#89b4fa,bg=#313244]#[fg=#1e1e2e,bg=#89b4fa,bold] #I #[fg=#cdd6f4,bg=#313244,nobold]  #{?#{||:#{==:#{pane_current_command},zsh},#{==:#{pane_current_command},bash}},#{b:pane_current_path},#{pane_current_command}} #[fg=#313244,bg=#1e1e2e]"
+set -g window-status-current-format "#[fg=#fab387,bg=#313244]#[fg=#1e1e2e,bg=#fab387,bold] #I #[fg=#cdd6f4,bg=#313244,nobold]  #{?#{||:#{==:#{pane_current_command},zsh},#{==:#{pane_current_command},bash}},#{b:pane_current_path},#{pane_current_command}} #[fg=#313244,bg=#1e1e2e]"
+
 set -g @plugin 'tmux-plugins/tmux-yank'
 set -g @plugin 'joshmedeski/t-smart-tmux-session-manager'
 
