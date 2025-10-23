@@ -46,7 +46,7 @@ unbind Right
 bind -n M-H previous-window
 bind -n M-L next-window
 
-# Theme configuration (must be before plugins)
+# Theme configuration (must be before loading catppuccin)
 set -g @catppuccin_flavor "mocha" # latte, frappe, macchiato, or mocha
 set -g @catppuccin_window_status_style "rounded" # basic, rounded, slanted, custom, or none
 
@@ -56,15 +56,9 @@ set -g @catppuccin_window_default_text "#{?#{||:#{==:#{pane_current_command},zsh
 set -g @catppuccin_window_default_fill "theme"
 set -g @catppuccin_window_current_fill "theme"
 
-# Load catppuccin
-run ~/.tmux/plugins/tmux/catppuccin.tmux
-
-# Make the status line pretty and add some modules
-set -g status-right-length 100
-set -g status-left-length 100
-set -g status-left "#{E:@catppuccin_status_window}"
-set -g status-right "#{E:@catppuccin_status_application}"
-set -ag status-right "#{E:@catppuccin_status_session}"
+# Configure which modules to show in status bar
+set -g @catppuccin_status_modules_right "application session"
+set -g @catppuccin_status_modules_left ""
 
 # Plugins
 #https://github.com/tmux-plugins/tpm
@@ -72,6 +66,9 @@ set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
 set -g @plugin 'christoomey/vim-tmux-navigator'
 set -g @plugin 'catppuccin/tmux'
+
+# Load catppuccin theme (must be after plugin declaration, before tpm load)
+run ~/.tmux/plugins/tmux/catppuccin.tmux
 set -g @plugin 'tmux-plugins/tmux-yank'
 set -g @plugin 'joshmedeski/t-smart-tmux-session-manager'
 
