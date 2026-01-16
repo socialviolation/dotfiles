@@ -103,7 +103,7 @@ bind-key "T" run-shell "sesh connect \"$(
     --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
     --preview-window 'right:55%' \
     --preview 'sesh preview {}'
-)\"
+)\""
 
 # Load
 run '~/.tmux/plugins/tpm/tpm'
