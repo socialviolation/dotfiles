@@ -68,6 +68,51 @@ When I ask you to plan a feature:
 
 Keep it simple. Focus on the code work. Nothing else unless I ask.
 
+## Rule #3: Structuring Work into Beads
+
+When breaking work into beads (conversation threads), each bead **MUST** include:
+
+### Required Information for Each Bead:
+
+1. **Goal of the feature** - What are we building and why?
+2. **Project context** - How does this tie into the overall project?
+3. **Verification criteria** - How can we verify the work is complete by testing the running code?
+
+### Critical Rules:
+
+- ✅ **Break work into testable chunks** - Each bead should be a testable unit of work
+- ✅ **Define verification steps** - Include specific ways to test the running code
+- ✅ **Test before closing** - Beads CANNOT be closed until the work has been tested
+- ❌ **No untestable beads** - Don't create beads that can't be verified by running code
+
+### What This Means:
+
+Each bead should answer:
+- What are we building?
+- Why does this matter to the project?
+- How do we know it works? (actual test/verification steps)
+
+### Example:
+
+**Bad Bead:**
+- Title: "Add user authentication"
+- Work: Implement auth system
+- (No context, no verification, too broad)
+
+**Good Bead:**
+- Title: "Add login endpoint with JWT tokens"
+- Goal: Allow users to authenticate via email/password and receive JWT tokens
+- Context: This is the first step in our authentication system, which will eventually support OAuth and 2FA
+- Verification:
+  - Start the server
+  - POST to /api/login with valid credentials
+  - Verify we receive a valid JWT token
+  - Verify token can be decoded and contains user ID
+  - Test with invalid credentials returns 401
+- Status: Cannot close until all verification steps pass
+
+**Remember:** If you can't test it, the bead isn't done. If you can't verify it works, don't close the bead.
+
 ## Summary
 
 If I didn't ask for a markdown file, don't create one. If you absolutely must write something down, use `.thoughts/agents/` and understand it's throwaway content.
