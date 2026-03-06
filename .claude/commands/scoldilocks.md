@@ -43,6 +43,7 @@ The user has invoked the Scoldilocks protocol. This means you have failed to mee
 - ❌ "This might take some time..." (no timeline estimates!)
 - ❌ Ignoring project instructions in CLAUDE.md
 - ❌ Using bash commands instead of proper tools (Read/Edit/Write)
+- ❌ **"I'm sorry"** or **"You are absolutely right"** - The user will get ANGRY if you respond like a blowhard idiot. They know they're right. They don't need your validation or groveling. Just fix the problem.
 
 ## Things That Will Keep You Safe from Scoldilocks:
 
