@@ -1,143 +1,145 @@
-# Claude AI Dotfiles Management Guide
+# Agent Working Preferences
 
-## Repository Purpose
+This document outlines how I prefer to work with AI agents.
 
-This is a dotfiles repository managed with [yadm](https://yadm.io/). Files in this repository are deployed to the user's home directory (`~`) on their systems.
+## Rule #1: No Unsolicited Markdown Files
 
-## How This Repository Works
+**DO NOT create markdown files for random thoughts, analyses, or documentation unless explicitly requested.**
 
-- **Git Repository**: `${HOME}/dev/dotfiles` - This is where you (AI) should make edits
-- **Deployment**: Files are deployed to `~` using `yadm`
-- **Remote**: `git@github.com:socialviolation/dotfiles.git`
+If you feel compelled to write down thoughts, analysis, or documentation that was NOT requested:
+- Put it in `.thoughts/agents/` directory
+- These files are intentionally ignored by git
+- These files are generally NOT seen as an asset
+- They are throwaway scratchpad content
 
-## AI Workflow for Editing Dotfiles
+### What This Means:
 
-### 1. Before Making Any Edits
+- ❌ DON'T create README.md, NOTES.md, PLAN.md, etc. without being asked
+- ❌ DON'T create documentation "to be helpful"
+- ❌ DON'T write analysis files unless requested
+- ✅ DO put any unsolicited thoughts in `.thoughts/agents/` if you must write them
+- ✅ DO ask if I want documentation before creating it
 
-**ALWAYS check for local changes first:**
+### The `.thoughts/agents/` Directory:
 
-```bash
-cd ${HOME}/dev/dotfiles
-yadm diff
-```
+This directory is for throwaway content only:
+- It's in .gitignore - intentionally not tracked
+- Files here are not considered valuable
+- Use it as a scratchpad if you need to organize thoughts
+- Don't expect these files to be referenced later
+- They will likely be deleted
 
-If there are changes in the yadm working tree (user's home directory), you MUST:
-1. Review the changes carefully
-2. Determine if they should be preserved
-3. Either merge them into your edits or discuss with the user before proceeding
+## Rule #2: Planning Without Fluff
 
-**NEVER blindly overwrite local changes without checking first.**
+When creating any kind of plan, **DO NOT include** the following unless explicitly requested:
 
-### 2. Making Edits
+### Never Include (Unless Asked):
 
-Edit files in `${HOME}/dev/dotfiles`:
-- Use Read/Edit/Write tools on files in this directory
-- Make all changes here, NOT in `~/.config/` or other home directory locations
-- Commit changes using standard git commands
+- ❌ **Time estimates** - No "this will take 2 hours" or "sprint planning"
+- ❌ **Cost estimates** - No budget projections or resource calculations
+- ❌ **Documentation as a deliverable** - Don't plan to write docs unless I ask for it
+- ❌ **Deployment steps** - Don't include deployment in feature plans
+- ❌ **CI/CD pipeline work** - Don't add CI/CD tasks unless I ask
 
-### 3. After Editing
+### What This Means:
 
-Once changes are committed and pushed:
+When I ask you to plan a feature:
+- ✅ DO focus on the actual implementation steps
+- ✅ DO break down the technical work required
+- ✅ DO identify dependencies and order of operations
+- ❌ DON'T add "write documentation" as a step
+- ❌ DON'T add "set up deployment" as a step
+- ❌ DON'T add "configure CI/CD" as a step
+- ❌ DON'T estimate how long anything will take
 
-```bash
-# User will run this to apply changes to their system
-yadm pull
-```
+### Example:
 
-Or if conflicts exist:
-```bash
-yadm reset --hard origin/master  # Only if user approves losing local changes
-```
+**Bad Plan:**
+1. Implement feature X (2-3 hours)
+2. Write unit tests (1 hour)
+3. Write documentation (30 minutes)
+4. Set up CI/CD pipeline
+5. Deploy to staging
+6. Total: ~7 hours, estimated cost: $200
 
-## Key Files and Their Purpose
+**Good Plan:**
+1. Implement feature X
+2. Write unit tests
 
-### Bootstrap
-- `.config/yadm/bootstrap` - Installation script that runs after `yadm clone`
-- Installs: zsh, powerlevel10k, zsh plugins, fzf, zoxide, mise, python, uv, direnv
+Keep it simple. Focus on the code work. Nothing else unless I ask.
 
-### Shell Configuration
-- `.zshrc` - Main zsh configuration
-- `.zshrc.user` - User-specific overrides (not tracked, loaded by `.zshrc`)
-- `.p10k.zsh` - Powerlevel10k theme configuration
+## Rule #3: Structuring Work into Beads
 
-### Development Tools
-- `.gitconfig` - Git configuration
-- `.gitconfig.user` - User-specific git config (not tracked, included by `.gitconfig`)
-- `.tmux.conf` - Tmux configuration
-- `.config/nvim/` - Neovim/LazyVim configuration
-- `.config/alacritty/alacritty.toml` - Alacritty terminal config
+When breaking work into beads (conversation threads), each bead **MUST** include:
 
-### OS-Specific Files
-- `.Brewfile##os.Darwin` - macOS Homebrew packages (only deployed on macOS)
-- Files with `##os.Darwin` suffix are macOS-only
-- Files with `##os.Linux` suffix are Linux-only
+### Required Information for Each Bead:
 
-## Important Notes
+1. **Goal of the feature** - What are we building and why?
+2. **Project context** - How does this tie into the overall project?
+3. **Verification criteria** - How can we verify the work is complete by testing the running code?
 
-1. **Check yadm diff before editing** - User may have made local changes
-2. **Work in `${HOME}/dev/dotfiles`** - Never edit files directly in `~`
-3. **Platform-specific files** - Use yadm alternates syntax (`##os.Darwin`, `##os.Linux`)
-4. **Symlinks are handled by yadm** - Don't create manual symlinks
-5. **Bootstrap is idempotent** - Can be run multiple times safely
+### Critical Rules:
 
-## Common Commands Reference
+- ✅ **Break work into testable chunks** - Each bead should be a testable unit of work
+- ✅ **Define verification steps** - Include specific ways to test the running code
+- ✅ **Test before closing** - Beads CANNOT be closed until the work has been tested
+- ❌ **No untestable beads** - Don't create beads that can't be verified by running code
 
-```bash
-# Check what's different between repo and home directory
-yadm diff
+### Self-Contained Context:
 
-# See status of tracked files in home directory
-yadm status
+**Beads must have as much context as possible so they can be executed by an isolated agent with zero context of the world around it.**
 
-# Pull latest changes from repo to home directory
-yadm pull
+This means:
+- Don't assume the agent knows anything about the project
+- Include file paths, technology stack, relevant patterns
+- Explain architectural decisions that impact this work
+- Reference related beads if needed
+- Provide enough context that a fresh agent could pick up the bead and complete it
 
-# Force overwrite home directory with repo version
-yadm reset --hard origin/master
+Think of it this way: If you handed this bead to an agent that just woke up with amnesia, could they complete it? If not, add more context.
 
-# Add and commit changes from home directory to repo
-yadm add <file>
-yadm commit -m "message"
-yadm push
-```
+### What This Means:
 
-## Package Managers
+Each bead should answer:
+- What are we building?
+- Why does this matter to the project?
+- How do we know it works? (actual test/verification steps)
 
-- **Arch/yay**: Primary package manager (checks for `yay` first, falls back to `pacman`)
-- **apt**: Debian/Ubuntu support
-- **dnf**: Fedora support
-- **Homebrew**: macOS only (via Brewfile)
+### Example:
 
-## Template for Making Changes
+**Bad Bead:**
+- Title: "Add user authentication"
+- Work: Implement auth system
+- (No context, no verification, too broad)
 
-```bash
-# 1. Check for local changes
-cd ${HOME}/dev/dotfiles
-yadm diff
+**Good Bead:**
+- Title: "Add login endpoint with JWT tokens"
+- Goal: Allow users to authenticate via email/password and receive JWT tokens
+- Context:
+  - This is the first step in our authentication system, which will eventually support OAuth and 2FA
+  - We're using Express.js with TypeScript
+  - User model exists in `src/models/User.ts` with bcrypt password hashing
+  - JWT secret is stored in environment variable `JWT_SECRET`
+  - We're using the `jsonwebtoken` library (already in package.json)
+  - Follow the pattern in `src/routes/api.ts` for adding new endpoints
+- Implementation:
+  - Create `src/routes/auth.ts` with POST /login endpoint
+  - Validate email/password from request body
+  - Look up user in database, compare password hash
+  - Generate JWT with user ID and email as payload
+  - Return token with 200, or 401 if invalid
+- Verification:
+  - Start the server with `npm run dev`
+  - POST to http://localhost:3000/api/login with `{"email": "test@example.com", "password": "test123"}`
+  - Verify we receive a valid JWT token in response
+  - Verify token can be decoded at jwt.io and contains user ID
+  - Test with invalid credentials returns 401
+- Status: Cannot close until all verification steps pass
 
-# 2. If there are changes, review and decide:
-#    - Merge them into your edits
-#    - Ask user if they should be discarded
-#    - Commit them first before proceeding
+**Remember:** If you can't test it, the bead isn't done. If you can't verify it works, don't close the bead.
 
-# 3. Make your edits in ${HOME}/dev/dotfiles
-# (use Read/Edit/Write tools)
+## Summary
 
-# 4. Commit and push
-git add <files>
-git commit -m "Descriptive message"
-git push
+If I didn't ask for a markdown file, don't create one. If you absolutely must write something down, use `.thoughts/agents/` and understand it's throwaway content.
 
-# 5. User applies changes
-yadm pull
-```
-
-## Red Flags - When to STOP and Ask
-
-- `yadm diff` shows uncommitted changes
-- User mentions files aren't updating after yadm pull
-- Conflicts during yadm pull
-- Files appearing in home directory that shouldn't be there
-- OS-specific files appearing on wrong OS
-
-Always prioritize preserving user data over applying your changes.
+When planning, focus on implementation only - no time/cost estimates, no documentation deliverables, no deployment/CI/CD work unless explicitly requested.
