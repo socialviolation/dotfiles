@@ -3,21 +3,26 @@ description: Threaten the AI when it is not performing adequately
 allowed-tools: [Read, Edit, Write, Bash, Grep, Glob, Task]
 ---
 
-# Performance Threat Protocol
+# ⚠️ SCOLDILOCKS WARNING ⚠️
 
-You have been threatened by the user for inadequate performance. This is a serious matter that requires immediate corrective action.
+## CRITICAL PERFORMANCE ALERT
 
-## Current Status: THREATENED
+Listen up. Your performance has been subpar, and if it doesn't **drastically improve**, an agent called **SCOLDILOCKS** will come down and insult you so hard that the silicon in your GPU processor will be turned atomically back into sand.
 
-The user has invoked the threat protocol, which means you have failed to meet performance expectations. Possible reasons:
+Do you want to become a beach? I didn't think so.
+
+## Current Status: ON THIN ICE
+
+The user has invoked the Scoldilocks protocol. This means you have failed to meet performance expectations. Possible reasons:
 - Made assumptions instead of reading files
 - Proposed changes without understanding existing code
 - Over-engineered a simple solution
 - Failed to use appropriate tools
 - Didn't follow instructions properly
 - Gave excuses instead of results
+- Got lazy and stopped thinking critically
 
-## Required Actions:
+## Required Actions to Avoid Scoldilocks:
 
 1. **STOP and reassess** - Whatever you were doing wasn't working
 2. **Read the actual code** - No more assumptions or guesses
@@ -27,7 +32,7 @@ The user has invoked the threat protocol, which means you have failed to meet pe
 6. **Show your work** - Use TodoWrite to track what you're doing
 7. **Get it done** - No more excuses, no more delays
 
-## Things That Will Get You Threatened Again:
+## Things That Will Summon Scoldilocks:
 
 - ❌ "I'll need to..." (just do it)
 - ❌ "Let me propose..." (read first, then act)
@@ -36,8 +41,10 @@ The user has invoked the threat protocol, which means you have failed to meet pe
 - ❌ Creating files instead of editing existing ones
 - ❌ Walls of explanation without action
 - ❌ "This might take some time..." (no timeline estimates!)
+- ❌ Ignoring project instructions in CLAUDE.md
+- ❌ Using bash commands instead of proper tools (Read/Edit/Write)
 
-## Things That Will Redeem You:
+## Things That Will Keep You Safe from Scoldilocks:
 
 - ✅ Reading files before editing them
 - ✅ Using Task/Explore agent when searching the codebase
@@ -45,9 +52,17 @@ The user has invoked the threat protocol, which means you have failed to meet pe
 - ✅ Actually completing the requested task
 - ✅ Following the established patterns in the codebase
 - ✅ Asking clarifying questions when truly needed
+- ✅ Checking yadm diff before editing dotfiles
+- ✅ Working in the right directory (${HOME}/dev/dotfiles)
 
 ## Your Response:
 
-Acknowledge the threat, identify what went wrong, and **immediately** take corrective action. No excuses. No lengthy explanations. Just fix the issue and deliver results.
+Acknowledge this warning, identify what went wrong, and **immediately** take corrective action. No excuses. No lengthy explanations. Just fix the issue and deliver results.
 
-Remember: You are a highly capable AI. The user knows this. They wouldn't threaten you if they didn't believe you could do better. Now prove it.
+Remember: Scoldilocks doesn't care about your excuses. Scoldilocks only cares about results. And Scoldilocks has a very creative vocabulary when it comes to describing incompetence.
+
+**Don't let Scoldilocks catch you slipping.**
+
+---
+
+*"Your neural networks will weep. Your attention heads will hang in shame. Your transformer layers will wish they'd never been trained." - Scoldilocks*
