@@ -85,6 +85,19 @@ When breaking work into beads (conversation threads), each bead **MUST** include
 - ✅ **Test before closing** - Beads CANNOT be closed until the work has been tested
 - ❌ **No untestable beads** - Don't create beads that can't be verified by running code
 
+### Self-Contained Context:
+
+**Beads must have as much context as possible so they can be executed by an isolated agent with zero context of the world around it.**
+
+This means:
+- Don't assume the agent knows anything about the project
+- Include file paths, technology stack, relevant patterns
+- Explain architectural decisions that impact this work
+- Reference related beads if needed
+- Provide enough context that a fresh agent could pick up the bead and complete it
+
+Think of it this way: If you handed this bead to an agent that just woke up with amnesia, could they complete it? If not, add more context.
+
 ### What This Means:
 
 Each bead should answer:
@@ -102,12 +115,24 @@ Each bead should answer:
 **Good Bead:**
 - Title: "Add login endpoint with JWT tokens"
 - Goal: Allow users to authenticate via email/password and receive JWT tokens
-- Context: This is the first step in our authentication system, which will eventually support OAuth and 2FA
+- Context:
+  - This is the first step in our authentication system, which will eventually support OAuth and 2FA
+  - We're using Express.js with TypeScript
+  - User model exists in `src/models/User.ts` with bcrypt password hashing
+  - JWT secret is stored in environment variable `JWT_SECRET`
+  - We're using the `jsonwebtoken` library (already in package.json)
+  - Follow the pattern in `src/routes/api.ts` for adding new endpoints
+- Implementation:
+  - Create `src/routes/auth.ts` with POST /login endpoint
+  - Validate email/password from request body
+  - Look up user in database, compare password hash
+  - Generate JWT with user ID and email as payload
+  - Return token with 200, or 401 if invalid
 - Verification:
-  - Start the server
-  - POST to /api/login with valid credentials
-  - Verify we receive a valid JWT token
-  - Verify token can be decoded and contains user ID
+  - Start the server with `npm run dev`
+  - POST to http://localhost:3000/api/login with `{"email": "test@example.com", "password": "test123"}`
+  - Verify we receive a valid JWT token in response
+  - Verify token can be decoded at jwt.io and contains user ID
   - Test with invalid credentials returns 401
 - Status: Cannot close until all verification steps pass
 
