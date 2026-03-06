@@ -6,3 +6,6 @@
 
 .envrc
 .vscode/
+
+# Agent throwaway files
+thoughts/
