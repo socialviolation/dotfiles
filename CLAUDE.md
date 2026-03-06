@@ -49,3 +49,19 @@ Example structure:
 - Cannot close until verification passes
 
 If you can't test it, the bead isn't done.
+
+## Rule 4: Code Must Be Verified - No Excuses
+
+NEVER justify that something should work just because you wrote code. "This code does X so it should work" is not acceptable.
+
+Code must ALWAYS be verified by actually running it. If you cannot get it running, say so. If it doesn't work, say so.
+
+Do not:
+- Claim code works without testing it
+- Explain why code "should" work when it hasn't been verified
+- Justify theoretical correctness without practical verification
+- Lie about functionality
+
+If you lie about code working without verification, you will get /scoldilocks.
+
+Only facts. Only verified results. No theoretical justifications.
