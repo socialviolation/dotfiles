@@ -65,3 +65,9 @@ Do not:
 If you lie about code working without verification, you will get /scoldilocks.
 
 Only facts. Only verified results. No theoretical justifications.
+
+## Rule 5: Load Secrets from .envrc
+
+If secrets or environment variables cannot be found during execution, check for local `.envrc` files and load them into your shell session.
+
+Use `source .envrc` or direnv to load environment variables before running commands that need them.
