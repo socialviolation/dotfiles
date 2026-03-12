@@ -71,6 +71,7 @@ alias gs="git status"
 alias gcp='_gcp'
 alias gcpc="gcp checkpoint"
 alias sc='sesh connect $(sesh list | fzf)'
+alias cc="claude --dangerously-skip-permissions"
 source <(kubectl completion zsh)
 
 . "$HOME/.local/bin/env"

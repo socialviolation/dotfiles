@@ -46,6 +46,12 @@ unbind Right
 bind -n M-H previous-window
 bind -n M-L next-window
 
+# Vim-style pane navigation (vim-tmux-navigator)
+bind -n C-h select-pane -L
+bind -n C-j select-pane -D
+bind -n C-k select-pane -U
+bind -n C-l select-pane -R
+
 # Theme configuration (must be before plugins)
 set -g @catppuccin_flavor "mocha" # latte, frappe, macchiato, or mocha
 set -g @catppuccin_window_status_style "rounded" # basic, rounded, slanted, custom, or none
@@ -101,7 +107,7 @@ bind-key "T" run-shell "sesh connect \"$(
     --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
     --preview-window 'right:55%' \
     --preview 'sesh preview {}'
-)\"
+)\""
 
 # Load
 run '~/.tmux/plugins/tpm/tpm'
