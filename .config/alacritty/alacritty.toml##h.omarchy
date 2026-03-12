@@ -19,3 +19,6 @@ bindings = [
 { key = "F11", action = "ToggleFullscreen" },
 { key = "Return", mods = "Alt", chars = "\u001b\n" }
 ]
+
+[terminal]
+osc52 = "CopyPaste"
