@@ -74,10 +74,10 @@ alias sc='sesh connect $(sesh list | fzf)'
 alias cc="claude --dangerously-skip-permissions"
 source <(kubectl completion zsh)
 
-. "$HOME/.local/bin/env"
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
 
 # Load user-specific config if it exists
 [[ -f ~/.zshrc.user ]] && source ~/.zshrc.user
 
 # OpenClaw Completion
-source "/Users/nickfreemantle/.openclaw/completions/openclaw.zsh"
+[[ -f "$HOME/.openclaw/completions/openclaw.zsh" ]] && source "$HOME/.openclaw/completions/openclaw.zsh"
