@@ -142,7 +142,7 @@ done
 # Install packages from Brewfile on macOS
 if [ "$OS" = "Darwin" ] && [ -f "$HOME/.Brewfile" ]; then
     echo "==> Installing packages from Brewfile"
-    brew bundle --file="$HOME/.Brewfile" --no-lock
+    brew bundle --file="$HOME/.Brewfile"
 fi
 
 # Install JetBrainsMono Nerd Font
