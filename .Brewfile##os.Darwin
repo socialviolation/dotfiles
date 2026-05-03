@@ -35,8 +35,6 @@ brew "ripgrep"
 brew "scc"
 brew "sd"
 brew "sesh"
-brew "spotify-tui"
-brew "spotifyd", restart_service: true
 brew "stern"
 brew "task"
 brew "telnet"
