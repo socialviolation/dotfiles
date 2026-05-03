@@ -72,6 +72,22 @@ alias gcp='_gcp'
 alias gcpc="gcp checkpoint"
 alias sc='sesh connect $(sesh list | fzf)'
 alias cc="claude --dangerously-skip-permissions"
+
+function ts() {
+    local accounts account
+    accounts=$(tailscale switch --list 2>/dev/null \
+        | tail -n +2 \
+        | awk '{gsub(/\*$/, "", $3); print $3 "  (" $2 ")"}')
+    if [[ -n "$1" ]]; then
+        account=$(echo "$accounts" | fzf --filter="$1" | head -1 | awk '{print $1}')
+    else
+        account=$(echo "$accounts" \
+            | fzf --prompt="Tailscale account > " --height=~10 \
+            | awk '{print $1}')
+    fi
+    [[ -z "$account" ]] && return 1
+    tailscale switch "$account"
+}
 source <(kubectl completion zsh)
 
 [[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
