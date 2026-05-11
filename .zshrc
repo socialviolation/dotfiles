@@ -97,3 +97,10 @@ source <(kubectl completion zsh)
 
 # OpenClaw Completion
 [[ -f "$HOME/.openclaw/completions/openclaw.zsh" ]] && source "$HOME/.openclaw/completions/openclaw.zsh"
+
+# 1Password Service Account (shared openclaws vault)
+export OP_SERVICE_ACCOUNT_TOKEN="$(cat ~/.config/op/service-account-token 2>/dev/null)"
+
+# Agent Registry identity
+export AGENT_ORG=southfoundry
+export AGENT_DEPLOY_TARGET=host

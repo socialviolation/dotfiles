@@ -2,6 +2,7 @@
 #Set true colour
 set-option -sa terminal-overrides ",xterm*:Tc"
 set -g extended-keys on
+set -g extended-keys-format csi-u
 # Continuum
 # set -g @continuum-restore 'on'
 # set -g @continuum-save-interval '1'
@@ -95,23 +96,25 @@ bind '"' split-window -h -c "${pane_current_path}"
 bind % split-window -v -c "${pane_current_path}"
 
 
-bind-key "T" run-shell "sesh connect \"$(
-  sesh list --icons | fzf-tmux -p 80%,70% \
-    --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
-    --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
-    --bind 'tab:down,btab:up' \
-    --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
-    --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
-    --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
-    --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
-    --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
-    --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
-    --preview-window 'right:55%' \
-    --preview 'sesh preview {}'
-)\""
-
 # Load
 run '~/.tmux/plugins/tpm/tpm'
+
+# Override plugin T binding with our custom sesh picker (must be after TPM)
+bind-key "T" run-shell "TARGET=$(
+  sesh-with-status | fzf-tmux -p 80%,70% \
+    --no-sort --ansi --delimiter '\t' --with-nth 2 \
+    --border-label ' sesh ' --prompt '⚡  ' \
+    --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
+    --bind 'tab:down,btab:up' \
+    --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh-with-status)' \
+    --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh-with-status -t)' \
+    --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh-with-status -c)' \
+    --bind 'ctrl-x:change-prompt(📁  )+reload(sesh-with-status -z)' \
+    --bind 'ctrl-f:change-prompt(🔎  )+reload(sesh-fd-list)' \
+    --bind 'ctrl-d:execute(tmux kill-session -t {1})+change-prompt(⚡  )+reload(sesh-with-status)' \
+    --preview-window 'right:55%' \
+    --preview 'sesh preview {1}' | cut -f1
+); [ -n \"\$TARGET\" ] && { sesh connect \"\$TARGET\"; claude-tmux-notify dismiss \"\$TARGET\"; }; true"
 
 
 
