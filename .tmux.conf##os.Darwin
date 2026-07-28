@@ -86,7 +86,8 @@ bind '"' split-window -h -c "${pane_current_path}"
 bind % split-window -v -c "${pane_current_path}"
 
 
-bind-key "T" run-shell "sesh connect \"$(
+unbind-key "T"
+bind-key "t" run-shell "sesh connect \"$(
   sesh list --icons | fzf-tmux -p 80%,70% \
     --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
     --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
