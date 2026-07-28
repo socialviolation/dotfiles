@@ -2,6 +2,7 @@
 #Set true colour
 set-option -sa terminal-overrides ",xterm*:Tc"
 set -g extended-keys on
+set -g extended-keys-format csi-u
 # Continuum
 # set -g @continuum-restore 'on'
 # set -g @continuum-save-interval '1'

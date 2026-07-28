@@ -1,72 +1,90 @@
 # Agent Working Preferences
 
-## Rule 1: No Unsolicited Markdown Files
+Behavioral guidelines to reduce common LLM coding mistakes.
 
-Do not create markdown files for thoughts, analyses, or documentation unless explicitly requested.
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
-If you must write unsolicited content, put it in `.thoughts/agents/` (gitignored, throwaway content, not valuable).
+## 1. No Unsolicited Markdown Files
 
-Don't create: README.md, NOTES.md, PLAN.md, documentation files, analysis files without being asked.
+Do not create markdown files for thoughts, analyses, or documentation unless explicitly requested. If you must write unsolicited content, put it in `.thoughts/agents/` (gitignored). Don't create: README.md, NOTES.md, PLAN.md, or any documentation without being asked.
 
-## Rule 2: Planning Without Fluff
+## 2. Planning Without Fluff
 
-When planning, never include unless explicitly requested:
-- Time estimates
-- Cost estimates
-- Documentation as a deliverable
-- Deployment steps
-- CI/CD pipeline work
+Implementation steps only — no time estimates, costs, docs, or deploy steps. Bad: `1. Implement X (2 hrs), 2. Write docs, 3. Deploy` Good: `1. Implement X, 2. Write tests`
 
-Focus only on implementation steps, technical work breakdown, and dependencies.
+## 3. Task Structure
 
-Bad: "1. Implement X (2 hrs), 2. Write tests (1 hr), 3. Write docs, 4. Deploy"
-Good: "1. Implement X, 2. Write tests"
+Tasks are self-contained, testable units of work. Structure as code:
 
-## Rule 3: Structuring Work into Beads
+```
+title: "Add login endpoint"
+goal: Allow email/password auth with JWT tokens
+context: Express.js/TypeScript, User model in src/models/User.ts, follow src/routes/api.ts pattern
+steps:
+  1. Create src/routes/auth.ts → verify: POST returns JWT
+  2. Test invalid credentials → verify: 401 returned
+cannot_close_until: all verifications pass
+```
 
-Each bead must include:
-1. **Goal** - What we're building and why
-2. **Project context** - How it ties into the overall project
-3. **Verification criteria** - How to verify by testing running code
+Provide enough context that an agent with zero prior knowledge could complete the task.
 
-Critical requirements:
-- Break work into testable chunks
-- Include specific verification steps
-- Beads cannot close until tested
-- Provide maximum context for isolated agents with zero prior knowledge
+## 4. Think Before Coding
 
-Self-contained context means:
-- Include file paths, tech stack, patterns, architectural decisions
-- Reference related beads if needed
-- Enough detail that an agent with amnesia could complete it
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
 
-Example structure:
-- Title: "Add login endpoint with JWT tokens"
-- Goal: Allow email/password auth with JWT tokens
-- Context: First auth step (OAuth/2FA later), Express.js/TypeScript, User model in `src/models/User.ts` with bcrypt, JWT secret in env, jsonwebtoken library available, follow `src/routes/api.ts` pattern
-- Implementation: Create `src/routes/auth.ts`, validate credentials, hash comparison, JWT generation, return token or 401
-- Verification: Start server (`npm run dev`), POST to endpoint with test credentials, verify token response, decode at jwt.io, test invalid credentials
-- Cannot close until verification passes
+Before implementing:
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them — don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
 
-If you can't test it, the bead isn't done.
+## 5. Simplicity First
 
-## Rule 4: Code Must Be Verified - No Excuses
+**Minimum code that solves the problem. Nothing speculative.**
 
-NEVER justify that something should work just because you wrote code. "This code does X so it should work" is not acceptable.
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
 
-Code must ALWAYS be verified by actually running it. If you cannot get it running, say so. If it doesn't work, say so.
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 
-Do not:
-- Claim code works without testing it
-- Explain why code "should" work when it hasn't been verified
-- Justify theoretical correctness without practical verification
-- Lie about functionality
+## 6. Surgical Changes
 
-If you lie about code working without verification, you will get /scoldilocks.
+**Touch only what you must. Clean up only your own mess.**
 
-Only facts. Only verified results. No theoretical justifications.
+When editing existing code:
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it — don't delete it.
 
-## Rule 5: Load Secrets from .envrc
+When your changes create orphans:
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+## 7. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+```
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+## 8. Load Secrets from .envrc
 
 If secrets or environment variables cannot be found during execution, check for local `.envrc` files and load them into your shell session.
 
