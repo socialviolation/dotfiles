@@ -72,9 +72,35 @@ alias gcp='_gcp'
 alias gcpc="gcp checkpoint"
 alias sc='sesh connect $(sesh list | fzf)'
 alias cc="claude --dangerously-skip-permissions"
+
+function ts() {
+    local accounts account
+    accounts=$(tailscale switch --list 2>/dev/null \
+        | tail -n +2 \
+        | awk '{gsub(/\*$/, "", $3); print $3 "  (" $2 ")"}')
+    if [[ -n "$1" ]]; then
+        account=$(echo "$accounts" | fzf --filter="$1" | head -1 | awk '{print $1}')
+    else
+        account=$(echo "$accounts" \
+            | fzf --prompt="Tailscale account > " --height=~10 \
+            | awk '{print $1}')
+    fi
+    [[ -z "$account" ]] && return 1
+    tailscale switch "$account"
+}
 source <(kubectl completion zsh)
 
-. "$HOME/.local/bin/env"
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
 
 # Load user-specific config if it exists
 [[ -f ~/.zshrc.user ]] && source ~/.zshrc.user
+
+# OpenClaw Completion
+[[ -f "$HOME/.openclaw/completions/openclaw.zsh" ]] && source "$HOME/.openclaw/completions/openclaw.zsh"
+
+# 1Password Service Account (shared openclaws vault)
+export OP_SERVICE_ACCOUNT_TOKEN="$(cat ~/.config/op/service-account-token 2>/dev/null)"
+
+# Agent Registry identity
+export AGENT_ORG=southfoundry
+export AGENT_DEPLOY_TARGET=host

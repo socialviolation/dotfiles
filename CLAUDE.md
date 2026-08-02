@@ -55,7 +55,7 @@ Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, sim
 **Touch only what you must. Clean up only your own mess.**
 
 When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
+- Don't "improve" adjacent code or formatting (comments are the exception — see §8).
 - Don't refactor things that aren't broken.
 - Match existing style, even if you'd do it differently.
 - If you notice unrelated dead code, mention it — don't delete it.
@@ -84,8 +84,35 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-## 8. Load Secrets from .envrc
+## 8. No Comment Noise
+
+**Code is documented by unit tests, not comments.**
+
+- Do not narrate what you are doing or thinking in comments. No "// Loop through the users", "// Now we handle the error case", "// This fixes the bug by...".
+- Do not leave breadcrumbs for the reviewer ("// Added per request", "// Changed from X to Y").
+- When you encounter existing comments in code you are working on, actively remove them (exception to §6's "don't touch adjacent code" rule).
+- The rare acceptable comment states a non-obvious constraint the code cannot express (e.g. a workaround for an upstream bug, with a link). Everything else: delete.
+- If behavior needs explaining, write a unit test that demonstrates it instead.
+
+## 9. Branching Off Master
+
+When I say "create a new branch off of master" (or main), it means **exactly** this sequence — do not branch from wherever HEAD happens to be:
+
+```
+git checkout master      # (or main)
+git pull                  # update to latest origin/master
+git checkout -b <feature-branch>
+```
+
+Never use `git checkout -b <branch> origin/master` or `--track`: that sets the new branch's upstream to `origin/master`, which is wrong and dangerous (a bare `git push`/`pull` then targets shared master). A feature branch must track its **own** remote: set it on first push with `git push -u origin <feature-branch>`.
+
+## 10. Load Secrets from .envrc
 
 If secrets or environment variables cannot be found during execution, check for local `.envrc` files and load them into your shell session.
 
 Use `source .envrc` or direnv to load environment variables before running commands that need them.
+
+## 11. Local Tooling
+
+- **mise** (`mise.toml`) manages tool versions and project tasks — prefer it over Makefiles. Run tasks with `mise run <task>`.
+- **direnv** (`.envrc`) manages per-project env vars/secrets, auto-loaded on `cd` (see #10).

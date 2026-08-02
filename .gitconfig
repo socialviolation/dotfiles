@@ -111,7 +111,7 @@
 [pull]
   rebase = false
 [user]
-  name = Nick Freemantle
-  email = nick@fmtl.au
+	name = Nick Freemantle
+	email = nick+weeb@southfoundry.co
 [include]
   path = .gitconfig.user

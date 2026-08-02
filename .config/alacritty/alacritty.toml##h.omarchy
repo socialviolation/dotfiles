@@ -17,7 +17,8 @@ decorations = "None"
 [keyboard]
 bindings = [
 { key = "F11", action = "ToggleFullscreen" },
-{ key = "Return", mods = "Alt", chars = "\u001b\n" }
+{ key = "Return", mods = "Shift", chars = "\u001b[13;2u" },
+{ key = "Return", mods = "Alt", chars = "\u001b[13;3u" }
 ]
 
 [terminal]
