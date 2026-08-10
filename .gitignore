@@ -9,3 +9,11 @@
 
 # Agent throwaway files
 .thoughts/
+
+**/.claude/settings.local.json
+
+# beads issue tracker (local-only)
+.beads/
+
+# devstack local service config (machine-specific)
+devstack.service.yaml
