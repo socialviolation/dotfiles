@@ -1784,7 +1784,7 @@
   }
   
   function prompt_my_no_mux() {
-   if [[ -z "${TMUX}" ]]; then
+   if [[ -z "${TMUX}" && -z "${HERDR_ENV}" ]]; then
      p10k segment -f '#2CFA1F' -t "NO MUX" -i 
    fi
  }
