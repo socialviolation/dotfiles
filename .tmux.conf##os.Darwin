@@ -1,9 +1,6 @@
 
 #Set true colour
 set-option -sa terminal-overrides ",xterm*:Tc"
-# Continuum
-# set -g @continuum-restore 'on'
-# set -g @continuum-save-interval '1'
 
 # Mouse support
 set -g mouse on
@@ -73,9 +70,6 @@ run ~/.tmux/plugins/tmux/catppuccin.tmux
 set -g @plugin 'tmux-plugins/tmux-yank'
 set -g @plugin 'joshmedeski/t-smart-tmux-session-manager'
 
-set -g @plugin 'tmux-plugins/tmux-resurrect'
-set -g @plugin 'tmux-plugins/tmux-continuum'
-set -g @continuum-restore 'on'
 # set vi-mode
 set-window-option -g mode-keys vi
 # keybindings
