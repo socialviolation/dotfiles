@@ -6,8 +6,13 @@
 
 set -uo pipefail
 
-# yadm hooks run non-interactive, where ~/.local/bin (herdr's home) may be absent from PATH.
-export PATH="$HOME/.local/bin:$PATH"
+# yadm hooks run non-interactive, where ~/.local/bin (herdr's home) and cargo — needed by
+# plugins that build from source — may be absent from PATH.
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$HOME/.cargo/bin:$PATH"
+
+# yadm exports GIT_DIR/GIT_WORK_TREE to its hooks. herdr plugin install shells out to git,
+# which would otherwise init/remote-add against the yadm repo instead of the plugin checkout.
+unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE
 
 declare -A HERDR_PLUGINS=(
     ["herdr.collie"]="AltanS/collie"
