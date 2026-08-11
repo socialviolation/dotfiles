@@ -1785,7 +1785,7 @@
   
   function prompt_my_no_mux() {
    if [[ -z "${TMUX}" && -z "${HERDR_ENV}" ]]; then
-     p10k segment -f '#2CFA1F' -t "NO MUX" -i 
+     p10k segment -f '#ff9e64' -t "NO MUX" -i 
    fi
  }
   # User-defined prompt segments may optionally provide an instant_prompt_* function. Its job
