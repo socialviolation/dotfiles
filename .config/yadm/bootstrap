@@ -139,6 +139,19 @@ for plugin in "${!plugins[@]}"; do
     fi
 done
 
+# Install herdr
+if ! command -v herdr &> /dev/null; then
+    echo "==> Installing herdr"
+    curl -fsSL https://herdr.dev/install.sh | sh
+else
+    echo "==> herdr already installed"
+fi
+
+# Install herdr plugins
+if [ -f "$HOME/.config/yadm/herdr-plugins.sh" ]; then
+    bash "$HOME/.config/yadm/herdr-plugins.sh"
+fi
+
 # Install packages from Brewfile on macOS
 if [ "$OS" = "Darwin" ] && [ -f "$HOME/.Brewfile" ]; then
     echo "==> Installing packages from Brewfile"

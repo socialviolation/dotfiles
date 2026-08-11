@@ -17,3 +17,13 @@ if [ -f "$HOME/sync" ]; then
     echo "🧹 Removing dotfiles sync script from home"
     rm -f "$HOME/sync"
 fi
+
+# Apply pulled config: install any newly-declared herdr plugins, then reload herdr
+if [ -f "$HOME/.config/yadm/herdr-plugins.sh" ]; then
+    bash "$HOME/.config/yadm/herdr-plugins.sh"
+fi
+
+if [ -S "$HOME/.config/herdr/herdr.sock" ]; then
+    echo "🔄 Reloading herdr config"
+    PATH="$HOME/.local/bin:$PATH" herdr server reload-config > /dev/null || true
+fi
