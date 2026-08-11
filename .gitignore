@@ -17,3 +17,4 @@
 
 # devstack local service config (machine-specific)
 devstack.service.yaml
+*.local.js

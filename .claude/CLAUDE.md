@@ -76,6 +76,17 @@ git checkout -b <linear-branch-name>
 - **mise** (`mise.toml`) manages tool versions and project tasks — prefer it over Makefiles. Run tasks with `mise run <task>`.
 - **direnv** (`.envrc`) holds per-project env vars and secrets. If a secret or env var is missing, `source .envrc` before rerunning.
 - **devstack** manages local dev services. Don't start services by hand — use `devstack start <service>` (it handles dependency ordering) and `devstack status` to see what's running. Workspace is auto-detected from the working directory. When debugging a running service, query its traces and logs via `devstack otel traces` rather than guessing.
+- **"The stack URL"** means the tailnet HTTPS URL, never the devstack port. This machine is `omarchy` on the tailnet, so URLs read `https://omarchy.tailde366c.ts.net:<port>`. Three hops, a different port at each: `tailnet :84xx → caddy :85xx → service :200xx`. Site blocks live in `~/dev/navexa/caddy/stacks/<stack>-<service>.caddy` (written by `scripts/stack-provision.sh`), so grepping the main `Caddyfile` for the service port finds nothing. Derive it:
+
+  ```sh
+  stack=orbit-store
+  for f in ~/dev/navexa/caddy/stacks/${stack}-*.caddy; do
+    cport=$(grep -oP '^:\K[0-9]+' "$f")
+    tailscale serve status | grep -B1 "127.0.0.1:${cport}\b" | grep -oP 'https://\S+'
+  done
+  ```
+
+  Read the ports; the `84xx/85xx/200xx` offsets are convention, not a rule. Never stand up a new `tailscale serve` — it bypasses caddy's compression and leaves a stray mapping. Never enable Funnel; every mapping is tailnet-only. A backend-only stack has no `.caddy` file, and "no URL" is then the correct answer.
 
 ## 8. Communication
 
