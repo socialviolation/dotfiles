@@ -1,11 +1,44 @@
 [theme]
 name = "catppuccin"
 
+[theme.custom]
+red = "#ff1744"
+peach = "#ff9100"
+yellow = "#ffea00"
+green = "#00e676"
+mauve = "#d05cff"
+teal = "#00e5ff"
+accent = "#00e5ff"
+overlay0 = "#7d8798"
+subtext0 = "#c3cbd9"
+
+[ui]
+agent_panel_sort = "priority"
+
+[ui.sidebar.agents]
+rows = [
+    [{ token = "state_icon", bold = true }, "workspace", "tab"],
+    ["terminal_title"],
+    [{ token = "state_text", bold = true }, "agent"],
+]
+
+[ui.sidebar.spaces]
+rows = [
+    [{ token = "state_icon", bold = true }, "workspace"],
+    ["branch", "git_status"],
+]
+
 [keys]
 prefix = "ctrl+space"
 detach = "prefix+d"
 split_vertical = "prefix+\""
 split_horizontal = "prefix+%"
+
+[[keys.command]]
+key = "prefix+a"
+type = "shell"
+command = "$HOME/.config/herdr/focus-attention.sh"
+description = "jump to the agent that just finished"
 
 [[keys.command]]
 key = "prefix+t"
