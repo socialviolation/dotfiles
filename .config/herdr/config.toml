@@ -37,7 +37,7 @@ split_horizontal = "prefix+%"
 [[keys.command]]
 key = "prefix+a"
 type = "shell"
-command = "$HOME/.config/herdr/focus-attention.sh"
+command = "sh -c $HOME/.config/herdr/focus-attention.sh"
 description = "jump to the agent that just finished"
 
 [[keys.command]]
