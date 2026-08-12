@@ -35,6 +35,12 @@ split_vertical = "prefix+\""
 split_horizontal = "prefix+%"
 
 [[keys.command]]
+key = "prefix+a"
+type = "shell"
+command = "$HOME/.config/herdr/focus-attention.sh"
+description = "jump to the agent that just finished"
+
+[[keys.command]]
 key = "prefix+t"
 type = "plugin_action"
 command = "herdr-navigator.open"
