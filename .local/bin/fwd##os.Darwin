@@ -1,19 +1,70 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-host="${FWD_HOST:-nick@omarchy}"
+host="${FWD_SSH_TARGET:-}"
 
-if [[ $# -eq 0 ]]; then
-    echo "usage: fwd PORT [PORT...]" >&2
+if [[ -z $host ]]; then
+    echo "fwd: FWD_SSH_TARGET is not set (e.g. export FWD_SSH_TARGET=user@host)" >&2
     exit 1
 fi
 
-forwards=()
-for port in "$@"; do
+if [[ $# -eq 0 ]]; then
+    clip=$(pbpaste)
+    if [[ -z ${clip//[[:space:]]/} ]]; then
+        echo "usage: fwd [PORT|URL...]   (no args reads the url from your clipboard)" >&2
+        exit 1
+    fi
+    set -- "$clip"
+fi
+
+ports=()
+
+add_port() {
+    local port=$1
     if [[ ! $port =~ ^[0-9]+$ ]] || (( port < 1 || port > 65535 )); then
         echo "fwd: invalid port: $port" >&2
         exit 1
     fi
+    local seen
+    for seen in ${ports[@]+"${ports[@]}"}; do
+        [[ $seen == "$port" ]] && return
+    done
+    ports+=("$port")
+}
+
+url=""
+
+for arg in "$@"; do
+    arg=${arg//[[:space:]]/}
+
+    if [[ $arg =~ ^[0-9]+$ ]]; then
+        add_port "$arg"
+        continue
+    fi
+
+    [[ -z $url ]] && url=$arg
+
+    decoded=${arg//%3A/:}
+    decoded=${decoded//%3a/:}
+    matches=$(
+        grep -oiE '(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\]):[0-9]{1,5}' <<<"$decoded" || true
+        grep -oE '[?&]([A-Za-z]+[_-])?[Pp]ort=[0-9]{1,5}' <<<"$decoded" || true
+        grep -oE '[?&][A-Za-z]+Port=[0-9]{1,5}' <<<"$decoded" || true
+    )
+    found=$(grep -oE '[0-9]+$' <<<"$matches" || true)
+
+    if [[ -z $found ]]; then
+        echo "fwd: no localhost or callback ports found in: $arg" >&2
+        exit 1
+    fi
+
+    while read -r port; do
+        add_port "$port"
+    done <<<"$found"
+done
+
+forwards=()
+for port in "${ports[@]}"; do
     forwards+=(-L "${port}:localhost:${port}")
 done
 
@@ -32,9 +83,14 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-for port in "$@"; do
+for port in "${ports[@]}"; do
     echo "fwd: localhost:${port} -> ${host}:${port}"
 done
+
+if [[ -n $url ]]; then
+    printf '%s' "$url" | pbcopy
+    echo "fwd: url copied to clipboard (${#url} chars)"
+fi
 echo "fwd: ctrl-c or esc to close"
 
 if [[ -t 0 ]]; then
