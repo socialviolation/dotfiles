@@ -1,4 +1,45 @@
 #!/usr/bin/env bash
+#
+# fwd — ssh port forwarding for oauth callbacks on a remote dev host.
+#
+# The problem: you are ssh'd into another machine, an mcp server or cli wants
+# you to authorise, and it prints an https url whose redirect_uri points at a
+# localhost port on the *remote* box. Opening that url in the mac browser sends
+# the callback to the mac's localhost, where nothing is listening.
+#
+# fwd forwards those ports back to the remote host so the callback lands.
+#
+#   fwd                  read the url from the clipboard (no pasting required)
+#   fwd "<url>"          take the url as an argument (must be quoted)
+#   fwd 3000 8080        forward bare ports
+#
+# Behaviours:
+#
+#   - Ports are extracted from a url three ways: loopback hosts
+#     (localhost/127.0.0.1/0.0.0.0/[::1] followed by :port), *port= query
+#     params (port, proxyPort, callback_port), and bare numeric arguments.
+#     Only loopback hosts match, so the auth server's own :443 is never
+#     forwarded. Ports are deduped and range checked.
+#   - %3A is decoded first, so ports url-encoded inside redirect_uri are found.
+#   - All whitespace is stripped from each argument before parsing. Copying a
+#     url out of a terminal wraps it across lines, and those newlines otherwise
+#     break both the url and the port match.
+#   - The repaired single-line url is written back to the clipboard, ready to
+#     paste into the browser.
+#   - Forwarding is torn down on ctrl-c or esc.
+#
+# Environment:
+#
+#   FWD_SSH_TARGET   required, the ssh target to forward to, e.g. nick@omarchy.
+#                    Set in ~/.zshrc.user alongside CLIPSSH_HOST. There is no
+#                    default; an unset var is an error rather than a silent
+#                    fallback to the wrong machine.
+#
+# Requires tailscale to be up: the target is resolved over the tailnet by
+# MagicDNS (`omarchy` -> 100.x.y.z), not by ~/.ssh/config or public dns, so
+# `tailscale status` should list the host before this will connect. pbcopy and
+# pbpaste make this mac-only, hence the ##os.Darwin yadm alternate.
+#
 set -euo pipefail
 
 host="${FWD_SSH_TARGET:-}"
