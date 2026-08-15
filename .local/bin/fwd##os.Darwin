@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+host="${FWD_HOST:-nick@omarchy}"
+
+if [[ $# -eq 0 ]]; then
+    echo "usage: fwd PORT [PORT...]" >&2
+    exit 1
+fi
+
+forwards=()
+for port in "$@"; do
+    if [[ ! $port =~ ^[0-9]+$ ]] || (( port < 1 || port > 65535 )); then
+        echo "fwd: invalid port: $port" >&2
+        exit 1
+    fi
+    forwards+=(-L "${port}:localhost:${port}")
+done
+
+ssh -N \
+    -o ExitOnForwardFailure=yes \
+    -o ServerAliveInterval=15 \
+    -o ServerAliveCountMax=3 \
+    "${forwards[@]}" "$host" &
+ssh_pid=$!
+
+cleanup() {
+    trap - EXIT INT TERM
+    kill "$ssh_pid" 2>/dev/null || true
+    wait "$ssh_pid" 2>/dev/null || true
+    echo "fwd: closed"
+}
+trap cleanup EXIT INT TERM
+
+for port in "$@"; do
+    echo "fwd: localhost:${port} -> ${host}:${port}"
+done
+echo "fwd: ctrl-c or esc to close"
+
+if [[ -t 0 ]]; then
+    while kill -0 "$ssh_pid" 2>/dev/null; do
+        if read -rsn1 -t 0.5 key && [[ $key == $'\e' ]]; then
+            break
+        fi
+    done
+else
+    wait "$ssh_pid"
+fi
