@@ -19,7 +19,7 @@ agent_panel_sort = "priority"
 rows = [
     [{ token = "state_icon", bold = true }, "workspace", "tab"],
     ["terminal_title"],
-    [{ token = "state_text", bold = true }, "agent"],
+    [{ token = "state_text", bold = true }, "agent", "$ctx", { token = "$ctx_warn", fg = "#ffea00" }, { token = "$ctx_crit", fg = "#ff1744" }],
 ]
 
 [ui.sidebar.spaces]
@@ -63,3 +63,15 @@ key = "prefix+shift+f"
 type = "plugin_action"
 command = "herdr-file-viewer.open-file-viewer-tab"
 description = "open file viewer in tab"
+
+[[keys.command]]
+key = "prefix+l"
+type = "plugin_action"
+command = "devstack.open-panel"
+description = "open the devstack panel in split"
+
+[[keys.command]]
+key = "prefix+shift+l"
+type = "plugin_action"
+command = "devstack.open-links"
+description = "open a service address in the browser"
