@@ -46,6 +46,15 @@
             "command": "/home/nick/.config/herdr/claude-context-token.py"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/nick/.claude/hooks/no-comments-diff.py"
+          }
+        ]
       }
     ],
     "PreToolUse": [
