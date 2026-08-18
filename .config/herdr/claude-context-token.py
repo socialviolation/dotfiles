@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 import json
 import os
+import re
 import subprocess
 import sys
 
 TAIL_BYTES = 1_048_576
+GLYPHS = {"ctx_warn": "⚠", "ctx_crit": "✕"}
+OWNED_LABEL = re.compile(r"^\S+ [{}] \d+k$".format("".join(GLYPHS.values())))
 
 
 def latest_usage(path):
@@ -32,6 +35,28 @@ def latest_usage(path):
         if isinstance(usage, dict):
             return usage
     return None
+
+
+def sync_label(pane, active, kilos):
+    proc = subprocess.run(
+        ["herdr", "pane", "get", pane], capture_output=True, text=True
+    )
+    if proc.returncode != 0:
+        return
+    try:
+        info = json.loads(proc.stdout)["result"]["pane"]
+    except (ValueError, KeyError):
+        return
+    current = info.get("label", "")
+    if current and not OWNED_LABEL.match(current):
+        return
+    glyph = GLYPHS.get(active)
+    desired = "{} {} {}k".format(info.get("agent", "agent"), glyph, kilos) if glyph else ""
+    if desired == current:
+        return
+    args = ["herdr", "pane", "rename", pane]
+    args += [desired] if desired else ["--clear"]
+    subprocess.run(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 def main():
@@ -70,6 +95,7 @@ def main():
         else:
             args += ["--clear-token", key]
     subprocess.run(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    sync_label(pane, active, total // 1000)
 
 
 main()
