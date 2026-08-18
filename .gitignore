@@ -18,3 +18,7 @@
 # devstack local service config (machine-specific)
 devstack.service.yaml
 *.local.js
+
+# python bytecode
+__pycache__/
+*.pyc
