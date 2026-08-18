@@ -47,6 +47,17 @@
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/nick/.claude/hooks/no-comments.py"
+          }
+        ]
+      }
     ]
   },
   "enabledPlugins": {
