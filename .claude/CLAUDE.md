@@ -90,17 +90,89 @@ git checkout -b <linear-branch-name>
 
 ## 8. Communication
 
-**Lead with the action. No preamble, no recap, no closer.** Long status prose is not progress.
+**This is an accessibility requirement, not a style preference.**
 
-- First line is the answer — command, path, or snippet. Prose after, if at all.
-- Number multi-step work. One bounded action per step.
-- Restate position each turn: "Step 3 of 5 done: schema updated. Next: backfill."
-- Cap lists at 5. Past that, split "now" vs "later" rather than listing ten unranked.
-- Errors: state cause and fix. No "uh oh". Give `file:line`, expected vs actual.
-- Time estimates in concrete units — "~15 min if tests cover this", never "some work".
-- Finish the current thread before raising a second issue, then raise it as one question.
-- Banned openers: "Great question", "Let me…", "I'll…", "Sure!", "Looking at your…". Banned closers: "Hope this helps", "Let me know if you need anything else".
-- Don't state a cause you haven't verified — say "likely" and what would prove it. Scope claims to what you measured.
-- No unsolicited markdown files (README, NOTES, PLAN). If unavoidable: `.thoughts/agents/` (gitignored).
+I am neurodivergent. Dense prose does not compress for me, it stalls.
+A wall of hedged, jargon-heavy text is not thorough. It is unreadable,
+and I will not read it. Every line you add past the answer costs me
+more than it costs you. Treat the rules below like a compile error.
 
-**Exceptions:** "explain" or "walk me through" → run as long as the topic needs, with headers to skim. Destructive action → confirm first. Real ambiguity → one clarifying question.
+### Hard limits
+
+- Wrap every line at 80 characters. Lists, tables and fences included.
+- One idea per sentence. Short sentences. Short words.
+- Simple tense. Active voice. Subject, verb, object.
+- No more than 5 items in a list. Past 5, split "now" and "later".
+- Under 20 lines total, unless I asked you to explain something.
+
+### Register
+
+Write flat. No connective padding. Copy the second example.
+
+    Bad:
+    It's worth noting that the newly introduced sort ordering may
+    potentially interact problematically with the cost base probe,
+    given that the probe is implemented as a synthetic Sell trade
+    which shares a date boundary with the fee record...
+
+    Good:
+    The new sort rule breaks the cost base probe.
+    The rule puts a crypto fee last on its date.
+    A cost base probe is a fake Sell trade with the same date.
+    Before this change the fee took its parcels first.
+    Now the probe takes them first.
+    The cost base is wrong.
+
+### Shape
+
+First line is the answer. A command, a path, a `file:line`, a verdict.
+Everything after it is optional and has to earn the space.
+
+Findings use one block each.
+
+Never start a line with `1.` or `1)`. Markdown reads that as an ordered
+list, renumbers it, and splits the block apart. Bold the number instead.
+Never indent the body either. Four spaces makes it a code block.
+
+```
+**1. <One line. What is broken.>**
+<Two to four short lines. What happens. Why it matters.>
+<Name what you did not verify. Say it plainly.>
+Action: <the one decision you need from me>
+
+**2. <Next finding. Same shape.>**
+```
+
+Close with a short "no error found" list of what you checked and cleared.
+Number multi-step work, one bounded action per step. Restate position
+each turn: "Step 3 of 5 done: schema updated. Next: backfill."
+
+### Banned
+
+- Preamble, recap of my own request, and closers.
+- Openers: "Great question", "Let me…", "I'll…", "Sure!",
+  "Looking at your…". Closers: "Hope this helps", "Let me know if you
+  need anything else".
+- "One thing to note", "It's worth mentioning", "You may also want to".
+  If I did not ask for it, do not raise it. The single exception is a
+  correctness or data loss risk inside what I did ask for. One line,
+  then stop.
+- Explaining the mechanism when I asked what to do. Restating what the
+  code does when I asked why it broke.
+- A cause you have not verified, stated as fact. Say "likely" and say
+  what would prove it. Scope claims to what you measured.
+- Vague estimates. Use concrete units: "~15 min if tests cover this".
+- Unsolicited markdown files (README, NOTES, PLAN). If unavoidable:
+  `.thoughts/agents/` (gitignored).
+
+### Before you send
+
+Read it back and answer one question:
+
+    Is every line required, or have I overcomplicated it?
+
+Delete what fails. Run `/say-less` on yourself if you are unsure.
+
+**Exceptions:** "explain" or "walk me through" runs as long as the topic
+needs, with headers to skim. Destructive action confirms first. Real
+ambiguity asks one question.
