@@ -22,7 +22,6 @@ return {
         "jsx",
         "jsdoc",
         "json",
-        "jsonc",
         "html",
         "css",
       })
