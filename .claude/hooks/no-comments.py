@@ -115,16 +115,22 @@ def scan(path, before, after):
         text = raw.strip()
         tagged.append((marker_of(text, marks), text, text not in known))
 
-    hits = []
+    findings = []
     for idx, (mark, text, is_new) in enumerate(tagged):
         if not is_new or mark not in BLOCK_CLOSE:
             continue
         span = block_span(tagged, idx)
         if span == 1:
             continue
-        limit = DOC_LIMIT if text.startswith("/**") else 1
+        doc = text.startswith("/**")
+        limit = DOC_LIMIT if doc else 1
+        length = span if span else len(tagged) - idx
         if span is None or span > limit:
-            hits.extend(t[1] for t in tagged[idx:idx + (span or 1)])
+            findings.append({
+                "lines": [t[1] for t in tagged[idx:idx + length]],
+                "limit": limit,
+                "kind": "JSDoc lines" if doc else "block comment lines",
+            })
 
     start = 0
     while start < len(tagged):
@@ -136,30 +142,43 @@ def scan(path, before, after):
         while end < len(tagged) and tagged[end][0] == mark:
             end += 1
         run = tagged[start:end]
-        limit = DOC_LIMIT if is_doc(run, mark, tagged, end) else 1
+        doc = is_doc(run, mark, tagged, end)
+        limit = DOC_LIMIT if doc else 1
         if len(run) > limit and any(entry[2] for entry in run):
-            hits.extend(entry[1] for entry in run)
+            if not doc:
+                kind = "adjacent comment lines"
+            elif all(entry[1].startswith("///") for entry in run):
+                kind = "doc comment lines"
+            else:
+                kind = "doc comment lines above an exported declaration"
+            findings.append({
+                "lines": [entry[1] for entry in run],
+                "limit": limit,
+                "kind": kind,
+            })
         start = end
-    return hits
+    return findings
 
 
-def reason(path, hits):
-    listing = "\n".join("    " + h for h in hits[:12])
-    if len(hits) > 12:
-        listing += "\n    ... and %d more" % (len(hits) - 12)
+def reason(path, findings):
+    lines = [line for f in findings for line in f["lines"]]
+    listing = "\n".join("    " + line for line in lines[:12])
+    if len(lines) > 12:
+        listing += "\n    ... and %d more" % (len(lines) - 12)
+    first = findings[0]
     return (
-        "BLOCKED \u2014 no multi-line comments. This edit puts a multi-line comment into "
-        "%s:\n\n%s\n\nOne standalone comment line is allowed. Two or more adjacent comment "
-        "lines, and any block comment spanning more than one line, are not. Deleting "
-        "comments is always allowed. Doc comments a build step consumes \u2014 C# ///, "
-        "JSDoc /** */, and Go // above an exported declaration \u2014 may run to %d lines "
-        "before they are blocked too.\n\n"
-        "Code is documented by unit tests, not comments. Collapse it to a single line or "
-        "delete it \u2014 if it cannot survive on one line it does not belong in the file, it "
-        "belongs in a unit test. Rulebook: %s\n\n"
+        "BLOCKED \u2014 %d %s in %s; the tolerance here is %d.\n\n%s\n\n"
+        "This codebase does not want comments. Zero is the target. That tolerance is a "
+        "ceiling for the rare comment that earns its place, not a budget to spend \u2014 the "
+        "right fix is almost always to delete the comment, not to shorten it.\n\n"
+        "Code is documented by unit tests. If the behaviour needs explaining, write a test. "
+        "A comment earns its place only by stating a non-obvious external constraint the "
+        "code cannot express, and it must carry a link. Deleting comments is always "
+        "allowed.\n\n"
+        "Rulebook: %s\n\n"
         "If this is a false positive \u2014 a string literal, generated code, or a genuine "
         "keeper \u2014 do NOT retry. Tell the user what you hit and let them decide."
-    ) % (path, listing, DOC_LIMIT, CRITERIA)
+    ) % (len(first["lines"]), first["kind"], path, first["limit"], listing, CRITERIA)
 
 
 def main():
@@ -182,13 +201,13 @@ def main():
     else:
         before = inp.get("old_string", "")
         after = inp.get("new_string", "")
-    hits = scan(path, before, after)
-    if not hits:
+    findings = scan(path, before, after)
+    if not findings:
         return
     json.dump({"hookSpecificOutput": {
         "hookEventName": "PreToolUse",
         "permissionDecision": "deny",
-        "permissionDecisionReason": reason(path, hits),
+        "permissionDecisionReason": reason(path, findings),
     }}, sys.stdout)
 
 
