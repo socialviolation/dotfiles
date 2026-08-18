@@ -45,6 +45,12 @@ UNIVERSAL = ("#", "//", "/*", "--", ";", "<!--")
 
 BLOCK_CLOSE = {"/*": "*/", "<!--": "-->", "(*": "*)", "{-": "-}"}
 
+DOC_LIMIT = 4
+
+DOC_DECL = re.compile(
+    r"^(func\s+(\([^)]*\)\s*)?[A-Z]|type\s+[A-Z]|var\s+[A-Z]|const\s+[A-Z])"
+)
+
 KEEPER = re.compile(
     r"https?://|noqa|pragma|eslint|biome-ignore|prettier-ignore|stylelint|deno-lint"
     r"|@ts-|ts-ignore|ts-expect-error|ts-nocheck|pylint|mypy|ruff|flake8|nosec|gosec"
@@ -79,6 +85,26 @@ def marker_of(text, marks):
     return None
 
 
+def is_doc(run, mark, tagged, end):
+    if mark != "//":
+        return False
+    if all(entry[1].startswith("///") for entry in run):
+        return True
+    following = next((t[1] for t in tagged[end:] if t[1]), "")
+    return bool(DOC_DECL.match(following))
+
+
+def block_span(tagged, idx):
+    mark = tagged[idx][0]
+    closer = BLOCK_CLOSE[mark]
+    if closer in tagged[idx][1][len(mark):]:
+        return 1
+    for offset in range(idx + 1, len(tagged)):
+        if closer in tagged[offset][1]:
+            return offset - idx + 1
+    return None
+
+
 def scan(path, before, after):
     marks = markers(path)
     if not marks:
@@ -90,9 +116,15 @@ def scan(path, before, after):
         tagged.append((marker_of(text, marks), text, text not in known))
 
     hits = []
-    for mark, text, is_new in tagged:
-        if is_new and mark in BLOCK_CLOSE and BLOCK_CLOSE[mark] not in text:
-            hits.append(text)
+    for idx, (mark, text, is_new) in enumerate(tagged):
+        if not is_new or mark not in BLOCK_CLOSE:
+            continue
+        span = block_span(tagged, idx)
+        if span == 1:
+            continue
+        limit = DOC_LIMIT if text.startswith("/**") else 1
+        if span is None or span > limit:
+            hits.extend(t[1] for t in tagged[idx:idx + (span or 1)])
 
     start = 0
     while start < len(tagged):
@@ -104,7 +136,8 @@ def scan(path, before, after):
         while end < len(tagged) and tagged[end][0] == mark:
             end += 1
         run = tagged[start:end]
-        if len(run) >= 2 and any(entry[2] for entry in run):
+        limit = DOC_LIMIT if is_doc(run, mark, tagged, end) else 1
+        if len(run) > limit and any(entry[2] for entry in run):
             hits.extend(entry[1] for entry in run)
         start = end
     return hits
@@ -118,13 +151,15 @@ def reason(path, hits):
         "BLOCKED \u2014 no multi-line comments. This edit puts a multi-line comment into "
         "%s:\n\n%s\n\nOne standalone comment line is allowed. Two or more adjacent comment "
         "lines, and any block comment spanning more than one line, are not. Deleting "
-        "comments is always allowed.\n\n"
+        "comments is always allowed. Doc comments a build step consumes \u2014 C# ///, "
+        "JSDoc /** */, and Go // above an exported declaration \u2014 may run to %d lines "
+        "before they are blocked too.\n\n"
         "Code is documented by unit tests, not comments. Collapse it to a single line or "
         "delete it \u2014 if it cannot survive on one line it does not belong in the file, it "
         "belongs in a unit test. Rulebook: %s\n\n"
         "If this is a false positive \u2014 a string literal, generated code, or a genuine "
         "keeper \u2014 do NOT retry. Tell the user what you hit and let them decide."
-    ) % (path, listing, CRITERIA)
+    ) % (path, listing, DOC_LIMIT, CRITERIA)
 
 
 def main():
