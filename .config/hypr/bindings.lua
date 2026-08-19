@@ -10,6 +10,9 @@ hl.unbind("SUPER + ALT + S")
 hl.unbind("SUPER + SHIFT + S")
 o.bind("SUPER + SHIFT + S", "Copy latest screenshot", "omarchy-cmd-copy-latest-screenshot")
 
+hl.unbind("SUPER + SHIFT + M")
+o.bind("SUPER + SHIFT + M", "Music", "omarchy-shell quickshell.spotify.player togglePlayer")
+
 o.bind("SUPER + SHIFT + T", "Activity", { tui = "btop" })
 
 hl.unbind("SUPER + comma")
