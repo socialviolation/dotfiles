@@ -22,3 +22,6 @@ devstack.service.yaml
 # python bytecode
 __pycache__/
 *.pyc
+
+# devstack MCP config (machine-specific absolute paths)
+.mcp.json

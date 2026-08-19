@@ -1,3 +1,4 @@
+onboarding = false
 [theme]
 name = "catppuccin"
 
@@ -15,6 +16,7 @@ subtext0 = "#c3cbd9"
 [ui]
 agent_panel_sort = "priority"
 
+show_agent_labels_on_pane_borders = true
 [ui.sidebar.agents]
 rows = [
     [{ token = "state_icon", bold = true }, "workspace", "tab"],

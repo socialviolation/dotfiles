@@ -71,7 +71,7 @@ alias gs="git status"
 alias gcp='_gcp'
 alias gcpc="gcp checkpoint"
 alias sc='sesh connect $(sesh list | fzf)'
-alias cc="claude --permission-mode auto"
+alias cc="claude --dangerously-skip-permissions"
 
 function ts() {
     local accounts account
