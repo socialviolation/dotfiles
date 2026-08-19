@@ -99,34 +99,65 @@ The `.desktop` entry uses the absolute path and launches fine.
 `clipboard-write = allow`, so nvim OSC52 yank works. `clipboard-read = ask`,
 which only matters over ssh.
 
+## herdr
+
+Two unrelated faults, both mistaken for a broken hotkey.
+
+**`prefix + l` did nothing.** `h`, `j` and `k` worked. A `[[keys.command]]`
+entry claimed `prefix+l` for `devstack.open-panel`, which killed the default
+`focus_pane_right`. `herdr config check` had been reporting it all along:
+
+```
+prefix+l: kept keys.focus_pane_right, disabled keys.command[5].key
+```
+
+fcitx5 and Claude Code were both blamed first and both were innocent. fcitx5
+is disabled now anyway; re-enable with
+`systemctl --user enable --now omarchy-fcitx5.service` if you want it back.
+
+**The devstack panel opened nothing.** Two layers:
+
+- mise had no global `go`, so the `go:` backend shim could not run and
+  `devstack` errored with `No version is set for shim`. Fixed by
+  `mise use -g go@latest` plus
+  `mise use -g "go:github.com/socialviolation/devstack@latest"`.
+- the herdr server and client run with a PATH that has no
+  `~/.local/share/mise/shims`, because mise is activated per-shell rather than
+  shimmed globally. `devstack` existed interactively and did not exist for
+  herdr, so the panes died instantly. Fixed with a symlink into
+  `~/.local/bin`, which is on both PATHs:
+
+```
+~/.local/bin/devstack -> ~/.local/share/mise/installs/
+                         go-github-com-socialviolation-devstack/latest/bin/devstack
+```
+
+Not tracked in yadm — it points into a machine-specific mise path.
+
+Current bindings, chosen to avoid double modifiers:
+
+| Key | Action |
+| --- | --- |
+| `prefix+y` | devstack panel in a split |
+| `prefix+shift+y` | devstack address picker |
+| `prefix+h/j/k/l` | focus pane, all four working |
+| `ctrl+alt+h/j/k/l` | focus pane, direct, no prefix |
+
+### Gotchas
+
+`herdr server reload-config` reloads the **server**. Keybindings live in the
+**client**, so use `prefix + shift + r` after editing `config.toml`.
+
+`prefix+ctrl+...` does not appear anywhere in `herdr --default-config`; its
+only modified-prefix examples are `prefix+alt+g` and `prefix+alt+1..9`.
+`herdr config check` returns `ok` for a combo it cannot deliver — it only
+looks for collisions.
+
+`omarchy-menu-herdr-keybindings --print` lists defaults from the `[keys]`
+section only. Every `[[keys.command]]` entry is invisible there, which is why
+the `prefix+l` collision never showed up in the menu.
+
 ## Open
-
-**herdr `prefix + hjkl` pane switching is still broken.** Unresolved.
-
-fcitx5 was the first suspect — `omarchy-fcitx5.service` went active with the
-quattro session and its default trigger key is `Ctrl+Space`, the same as the
-herdr prefix. The service is now disabled and the keys still do not work, so
-fcitx5 was not the cause.
-
-Ruled out so far:
-
-- `herdr config check` returns `config: ok`
-- `~/.config/herdr/config.toml` sets `prefix = "ctrl+space"` and does not
-  rebind pane navigation
-- the focused tab genuinely has 2 panes, so there is something to switch to
-- ghostty has no keybind on `ctrl+space`, so it is not swallowing it
-
-Prime suspect is the terminal swap to ghostty and how `Ctrl+Space` is encoded
-on the wire. Next test: in a herdr pane run `cat -v` and press `Ctrl+Space`.
-`^@` means the legacy NUL byte, which is what herdr expects. A
-`^[[32;5u`-shaped sequence means the Kitty keyboard protocol instead.
-Also worth knowing whether any other prefix binding works, such as
-`prefix + b` for the sidebar — that separates "prefix never arrives" from
-"only pane navigation is broken".
-
-Note `omarchy-menu-herdr-keybindings --print` appears to list defaults rather
-than the merged config: it shows `PREFIX + V` for split vertical while the
-config file sets `prefix+"`. Do not treat that output as authoritative.
 
 **`~/.config/omarchy/shell.json` is tracked, and this repo is public.**
 The Spotify plugin writes runtime state into it — search history and a
