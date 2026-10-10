@@ -34,5 +34,6 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="$main_slug"
 export ANTHROPIC_DEFAULT_SONNET_MODEL="$sub_slug"
 export ANTHROPIC_DEFAULT_HAIKU_MODEL="$sub_slug"
 export CLAUDE_CODE_SUBAGENT_MODEL="$sub_slug"
+export CLAUDE_CODE_MAX_CONTEXT_TOKENS=200000
 
 exec claude "$@"
