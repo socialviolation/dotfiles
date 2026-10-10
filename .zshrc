@@ -72,6 +72,7 @@ alias gcp='_gcp'
 alias gcpc="gcp checkpoint"
 alias sc='sesh connect $(sesh list | fzf)'
 alias cc="claude --permission-mode auto"
+alias ccor="claude-or --dangerously-skip-permissions"
 
 function ts() {
     local accounts account

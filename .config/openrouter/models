@@ -1,0 +1,6 @@
+ds=deepseek/deepseek-v4.1-flash
+qwen=qwen/qwen3.8-27b
+glm=z-ai/glm-5.3-flash
+kimi=moonshotai/kimi-k3
+opus=anthropic/claude-opus-5.5
+sonnet=anthropic/claude-sonnet-5.5

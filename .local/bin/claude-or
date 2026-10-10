@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+models="$(dirname "$(readlink -f "$0")")/../../.config/openrouter/models"
+
+resolve() {
+  local slug
+  slug=$(sed -n "s/^$1=//p" "$models" | head -n1)
+  printf '%s' "${slug:-$1}"
+}
+
+main=ds
+sub=ds
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --list) cat "$models"; exit 0 ;;
+    --main) main="$2"; shift 2 ;;
+    --sub) sub="$2"; shift 2 ;;
+    *) break ;;
+  esac
+done
+
+key="${OPENROUTER_API_KEY:-}"
+[ -n "$key" ] || key=$(cat "$HOME/.config/openrouter/key")
+
+main_slug=$(resolve "$main")
+sub_slug=$(resolve "$sub")
+
+export ANTHROPIC_BASE_URL=https://openrouter.ai/api
+export ANTHROPIC_AUTH_TOKEN="$key"
+export ANTHROPIC_API_KEY=""
+export ANTHROPIC_MODEL="$main_slug"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="$main_slug"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="$sub_slug"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="$sub_slug"
+export CLAUDE_CODE_SUBAGENT_MODEL="$sub_slug"
+
+exec claude "$@"

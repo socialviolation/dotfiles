@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+[ $# -ge 2 ] || { echo "usage: or-agent <alias> <prompt...>" >&2; exit 2; }
+alias_name="$1"
+shift
+exec claude-or --main "$alias_name" --sub "$alias_name" -p "$*"
