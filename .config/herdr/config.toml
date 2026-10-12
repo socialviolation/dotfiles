@@ -1,3 +1,4 @@
+onboarding = false
 [theme]
 name = "catppuccin"
 
@@ -15,6 +16,7 @@ subtext0 = "#c3cbd9"
 [ui]
 agent_panel_sort = "priority"
 
+show_agent_labels_on_pane_borders = true
 [ui.sidebar.agents]
 rows = [
     [{ token = "state_icon", bold = true }, "workspace", "tab"],
@@ -33,6 +35,10 @@ prefix = "ctrl+space"
 detach = "prefix+d"
 split_vertical = "prefix+\""
 split_horizontal = "prefix+%"
+focus_pane_left = ["prefix+h", "ctrl+alt+h"]
+focus_pane_down = ["prefix+j", "ctrl+alt+j"]
+focus_pane_up = ["prefix+k", "ctrl+alt+k"]
+focus_pane_right = ["prefix+l", "ctrl+alt+l"]
 
 [[keys.command]]
 key = "prefix+a"
@@ -65,13 +71,13 @@ command = "herdr-file-viewer.open-file-viewer-tab"
 description = "open file viewer in tab"
 
 [[keys.command]]
-key = "prefix+l"
+key = "prefix+y"
 type = "plugin_action"
 command = "devstack.open-panel"
 description = "open the devstack panel in split"
 
 [[keys.command]]
-key = "prefix+shift+l"
+key = "prefix+shift+y"
 type = "plugin_action"
 command = "devstack.open-links"
 description = "open a service address in the browser"

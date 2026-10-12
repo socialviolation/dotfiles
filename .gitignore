@@ -22,3 +22,9 @@ devstack.service.yaml
 # python bytecode
 __pycache__/
 *.pyc
+
+# devstack MCP config (machine-specific absolute paths)
+.mcp.json
+
+# omarchy shell config (Spotify plugin writes listening history into it)
+.config/omarchy/shell.json
