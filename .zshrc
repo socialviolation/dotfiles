@@ -73,6 +73,7 @@ alias gcpc="gcp checkpoint"
 alias sc='sesh connect $(sesh list | fzf)'
 alias cc="claude --dangerously-skip-permissions"
 alias ccor="claude-or --dangerously-skip-permissions"
+export ANTHROPIC_AUTH_TOKEN="$(< $HOME/.config/openrouter/key)"
 
 function ts() {
     local accounts account
