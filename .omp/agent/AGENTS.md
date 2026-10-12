@@ -32,6 +32,11 @@ Ask: "Would a senior engineer call this overcomplicated?" If yes, simplify.
 - "Fix the bug" → "Write a test that reproduces it, then make it pass"
 - "Refactor X" → "Ensure tests pass before and after"
 
+Validate surgically. Run only the tests that cover the code you changed —
+never a full test suite or full build mid-iteration. Fast, targeted
+feedback is the point. The full suite runs before push and at the PR
+stage, not during edits.
+
 For multi-step work, state the plan as `step → verify:` pairs. Implementation steps only — no time estimates, costs, docs, or deploy steps.
 
 ## 4. No Comment Noise

@@ -21,6 +21,9 @@ contradicts them.
   error handling.
 - Touch only what the task needs. Match existing style.
   No drive-by fixes or reformatting.
+- Validate surgically. Run only tests for the code you changed.
+  No full test suite or build mid-iteration.
+  Full suite runs before push and at PR stage.
 
 ## Git
 
