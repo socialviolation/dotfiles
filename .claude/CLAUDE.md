@@ -11,31 +11,20 @@ Behavioral guidelines to reduce common LLM coding mistakes. These bias toward ca
 - If a simpler approach exists, say so. Push back when warranted.
 - If something is unclear, stop. Name what's confusing. Ask.
 
-## 2. Simplicity First
+## 2. Simple, Surgical Changes
 
-**Minimum code that solves the problem. Nothing speculative.**
+**Minimum code. Every changed line traces to the request.**
 
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
+- No unrequested features, abstractions, config or flexibility.
+- No error handling for impossible cases.
+- Don't touch adjacent code, formatting or style. Match what is there.
+  Comments are the exception (see §4).
+- Don't refactor what works. Mention unrelated dead code; don't delete it.
+- Remove imports, variables and functions your change made unused.
 
-Ask: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+Ask: "Would a senior engineer call this overcomplicated?" If yes, simplify.
 
-## 3. Surgical Changes
-
-**Touch only what you must. Clean up only your own mess.**
-
-- Don't "improve" adjacent code or formatting (comments are the exception — see §5).
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- Notice unrelated dead code? Mention it — don't delete it.
-- Remove imports/variables/functions that YOUR changes made unused.
-
-The test: every changed line traces directly to the request.
-
-## 4. Goal-Driven Execution
+## 3. Goal-Driven Execution
 
 **Define success criteria. Loop until verified.**
 
@@ -45,17 +34,17 @@ The test: every changed line traces directly to the request.
 
 For multi-step work, state the plan as `step → verify:` pairs. Implementation steps only — no time estimates, costs, docs, or deploy steps.
 
-## 5. No Comment Noise
+## 4. No Comment Noise
 
 **Code is documented by unit tests, not comments.**
 
 - Don't narrate what you're doing in comments. No `// Loop through the users`, `// Now handle the error case`, `// This fixes the bug by...`.
 - Don't leave breadcrumbs for the reviewer (`// Added per request`, `// Changed from X to Y`).
-- Remove existing comments in code you're working on (exception to §3).
+- Remove existing comments in code you're working on (exception to §2).
 - The rare acceptable comment states a non-obvious constraint the code can't express — a workaround for an upstream bug, with a link. Everything else: delete.
 - If behavior needs explaining, write a unit test instead.
 
-## 6. Branching
+## 5. Branching
 
 **One branch per session, cut from master, named from Linear.**
 
@@ -71,7 +60,7 @@ git checkout -b <linear-branch-name>
 - Never `git checkout -b <branch> origin/master` or `--track` — that sets upstream to `origin/master`, so a bare `git push`/`pull` targets shared master. Set the branch's own upstream on first push: `git push -u origin <branch>`.
 - **Never create a second branch in the same session.** Features are batched onto one branch; separate branches add too much testing overhead. If new work looks like it wants its own branch, keep it on the current one and say so.
 
-## 7. Environment & Tooling
+## 6. Environment & Tooling
 
 - **mise** (`mise.toml`) manages tool versions and project tasks — prefer it over Makefiles. Run tasks with `mise run <task>`.
 - **direnv** (`.envrc`) holds per-project env vars and secrets. If a secret or env var is missing, `source .envrc` before rerunning.
@@ -88,7 +77,7 @@ git checkout -b <linear-branch-name>
 
   Read the ports; the `84xx/85xx/200xx` offsets are convention, not a rule. Never stand up a new `tailscale serve` — it bypasses caddy's compression and leaves a stray mapping. Never enable Funnel; every mapping is tailnet-only. A backend-only stack has no `.caddy` file, and "no URL" is then the correct answer.
 
-## 8. Communication
+## 7. Communication
 
 **This is an accessibility requirement, not a style preference.**
 
@@ -176,3 +165,16 @@ Delete what fails. Run `/say-less` on yourself if you are unsure.
 **Exceptions:** "explain" or "walk me through" runs as long as the topic
 needs, with headers to skim. Destructive action confirms first. Real
 ambiguity asks one question.
+
+## 8. Orchestration
+
+**The main agent orchestrates. Subagents do the work.**
+
+- The main agent plans, delegates, reviews and reports. Nothing else.
+- Hand all work to subagents: search, reading, edits, tests, checks.
+- Give each subagent one bounded task, the files in scope, and the
+  success check.
+- Every brief repeats §2: touch only what the task needs. No drive-by
+  fixes, no refactors, no reformatting.
+- Review each subagent's diff. Reject any line outside the task.
+- Run independent subagents in parallel.
